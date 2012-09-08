@@ -19,12 +19,12 @@ public class Ball extends GameObject {
 
 		setPosition(40, 40);
 		setSize(40, 40);
-		setVelocity(1, 1);
+		setVelocity(10, 10);
 	}
 
 	@Override
-	public void update(long timeDelta) {
-		super.update(timeDelta);
+	public void update() {
+		super.update();
 
 		Racket player = ((FancyPong) view).getPlayer();
 		Racket ai = ((FancyPong) view).getComputer();

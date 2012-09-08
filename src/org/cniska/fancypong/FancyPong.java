@@ -44,11 +44,11 @@ public class FancyPong extends GameView {
 	}
 
 	@Override
-	public void update(long timeDelta) {
-		ball.update(timeDelta);
-		player.update(timeDelta);
-		computer.update(timeDelta);
-		monitorPanel.update(timeDelta);
+	public void update() {
+		ball.update();
+		player.update();
+		computer.update();
+		monitorPanel.update();
 	}
 
 	@Override

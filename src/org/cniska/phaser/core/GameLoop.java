@@ -33,13 +33,9 @@ public class GameLoop implements Runnable {
         Logger.info(getClass().getCanonicalName(), "Starting game loop.");
 
         while (!finished) {
-			timeNow = System.nanoTime();
-			timeDelta = timeNow - lastTime;
-			lastTime = timeNow;
-
 			Monitor.beginUpdate();
 
-            view.update(timeDelta);
+            view.update();
 
 			Monitor.beginDraw();
 
@@ -74,6 +70,8 @@ public class GameLoop implements Runnable {
 					delayCount = 0;
 				}
 			}
+
+			lastTime = System.nanoTime();
 		}
     }
 

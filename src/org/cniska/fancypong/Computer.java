@@ -9,8 +9,8 @@ public class Computer extends Racket {
 	}
 
 	@Override
-	public void update(long timeDelta) {
-		super.update(timeDelta);
+	public void update() {
+		super.update();
 
 		Ball ball = ((FancyPong) view).getBall();
 		y = ball.getY() - 65;

@@ -22,14 +22,14 @@ public abstract class GameObject {
 		initialized = true;
 	}
 
-	public void update(long timeDelta) {
+	public void update() {
 		if (!initialized) {
 			init();
 		}
 
 		if (vx != 0 || vy != 0) {
-			x += (int) Math.round(vx * (timeDelta / 1000000L));
-			y += (int) Math.round(vy * (timeDelta / 1000000L));
+			x += vx;
+			y += vy;
 		}
 	}
 

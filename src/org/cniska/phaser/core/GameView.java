@@ -77,10 +77,8 @@ public abstract class GameView extends SurfaceView implements SurfaceHolder.Call
 
 	/**
 	 * Updates the game logic.
-	 *
-	 * @param timeDelta Time passed since the last call.
 	 */
-	public abstract void update(long timeDelta);
+	public abstract void update();
 
 	/**
 	 * Draws the game.
