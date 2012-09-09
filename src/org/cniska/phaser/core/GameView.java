@@ -20,7 +20,7 @@ public abstract class GameView extends SurfaceView implements SurfaceHolder.Call
     // ----------------------------------------
 
     /**
-     * Creates the game view.
+     * Creates a new game view.
 	 *
 	 * @param period Time between draws (in nanoseconds).
      * @param context The parent activity.
@@ -32,6 +32,7 @@ public abstract class GameView extends SurfaceView implements SurfaceHolder.Call
         // edit the pixels in the surface and monitor changes to the surface.
         getHolder().addCallback(this);
 		loop = new GameLoop(period, this);
+
 		init();
     }
 

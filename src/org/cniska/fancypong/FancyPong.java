@@ -5,80 +5,81 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.view.MotionEvent;
+import org.cniska.phaser.draw.Renderer;
+import org.cniska.phaser.input.TouchHandler;
+import org.cniska.phaser.node.GameNode;
 import org.cniska.phaser.core.GameView;
+import org.cniska.phaser.node.SceneManager;
 import org.cniska.phaser.debug.ui.MonitorPanel;
 
 public class FancyPong extends GameView {
 
-	private Ball ball;
-	private Racket player;
-	private Racket computer;
-	private MonitorPanel monitorPanel;
+	public enum SceneType implements GameNode.NodeType {
+		GAMEPLAY
+	};
 
+	// Member variables
+	// ----------------------------------------
+
+	private Renderer renderer;
+	private SceneManager scenes;
+	private TouchHandler touchHandler;
+	private MonitorPanel monitor;
 	private Paint background;
 
-	/**
-	 * Creates the game view.
-	 *
-	 * @param period Time between draws (in nanoseconds).
-	 * @param context The parent activity.
-	 */
+	// Methods
+	// ----------------------------------------
+
 	public FancyPong(long period, Context context) {
 		super(period, context);
+
+		renderer = new Renderer(this);
+		scenes = new SceneManager(this);
+		touchHandler = new TouchHandler(this);
 
 		background = new Paint();
 		background.setColor(Color.BLACK);
 	}
 
+	// Overridden methods
+	// ----------------------------------------
+
 	@Override
 	public void init() {
-		ball = new Ball(this);
+		scenes.add(SceneType.GAMEPLAY, new GamePlay(this));
+		scenes.set(SceneType.GAMEPLAY);
 
-		player = new Racket(this);
-		player.setPosition(20, 295);
-
-		computer = new Computer(this);
-		computer.setPosition(1100, 295);
-
-		monitorPanel = new MonitorPanel(this);
+		monitor = new MonitorPanel(this);
+		renderer.add(monitor);
 	}
 
 	@Override
 	public void update() {
-		ball.update();
-		player.update();
-		computer.update();
-		monitorPanel.update();
+		renderer.update();
+		scenes.update();
+		monitor.update();
 	}
 
 	@Override
 	public void draw(Canvas canvas) {
 		canvas.drawRect(0, 0, getWidth(), getHeight(), background);
-
-		ball.draw(canvas);
-		player.draw(canvas);
-		computer.draw(canvas);
-		monitorPanel.draw(canvas);
+		renderer.render(canvas);
 	}
 
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-		player.setY((int) (event.getY() - 75));
+		touchHandler.onTouch(event);
 		return true;
 	}
 
 	// Getters and setters
 	// ----------------------------------------
 
-	public Ball getBall() {
-		return ball;
+	public TouchHandler getTouchHandler() {
+		return touchHandler;
 	}
 
-	public Racket getPlayer() {
-		return player;
-	}
-
-	public Racket getComputer() {
-		return computer;
+	public Renderer getRenderer() {
+		return renderer;
 	}
 }

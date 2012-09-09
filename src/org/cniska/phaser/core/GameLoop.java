@@ -7,15 +7,29 @@ import org.cniska.phaser.debug.Monitor;
 
 public class GameLoop implements Runnable {
 
-    private volatile boolean finished = false;
+	// Static variables
+	// ----------------------------------------
 
 	private static final int DELAYS_PER_YIELD = 16;
 
+	// Member variables
+	// ----------------------------------------
+
+    private volatile boolean finished = false;
+
 	private long period;
 	private long startTime;
+	private GameView view;
 
-    private GameView view;
+	// Methods
+	// ----------------------------------------
 
+	/**
+	 * Creates a new game loop.
+	 *
+	 * @param period The update period (in nanoseconds).
+	 * @param view The parent view.
+	 */
     public GameLoop(long period, GameView view) {
         this.period = period;
 		this.view = view;
@@ -23,7 +37,7 @@ public class GameLoop implements Runnable {
 
     @Override
     public void run() {
-		long lastTime, timeNow, timeDelta, afterTime, elapsedTime, sleepTime;
+		long lastTime, afterTime, elapsedTime, sleepTime;
 		long overTime = 0L;
 		int delayCount = 0;
 
@@ -54,6 +68,7 @@ public class GameLoop implements Runnable {
 			sleepTime = (period - elapsedTime) - overTime;
 			overTime = 0L;
 
+			// Sleep if there is time, otherwise continue without sleeping.
 			if (sleepTime > 0) {
 				try {
 					Thread.sleep(sleepTime / 1000000L); // ns -> ms
@@ -61,7 +76,7 @@ public class GameLoop implements Runnable {
 					Logger.info(getClass().getCanonicalName(), "Sleep interrupted.");
 				}
 
-				// Calculate how much time we overslept.
+				// Calculate how much time we overslept, so that we can compensate for this next time.
 				overTime = (System.nanoTime() - afterTime) - sleepTime;
 			} else {
 				// Give other threads a chance to run.

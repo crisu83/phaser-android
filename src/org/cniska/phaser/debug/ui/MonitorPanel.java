@@ -17,40 +17,37 @@ public class MonitorPanel extends GamePanel {
 	public MonitorPanel(GameView view) {
 		super(view);
 
-		//df = new DecimalFormat("0.##");
+		df = new DecimalFormat("0.##");
 
 		text = new Paint(Paint.ANTI_ALIAS_FLAG);
 		text.setColor(Color.WHITE);
 		text.setStyle(Paint.Style.FILL);
 		text.setTextSize(12);
 
-		/*
 		Paint background = new Paint();
 		background.setColor(Color.DKGRAY);
 		background.setAlpha(80);
 		setBackground(background);
-		*/
 
 		setPosition(10, 10);
-		setSize(60, 30);
+		setSize(100, 90);
+		setzIndex(100);
 	}
 
 	@Override
 	public void draw(Canvas canvas) {
 		super.draw(canvas);
 
-		canvas.drawText("FPS: " + Monitor.getFps(), x, y, text);
-		/*
+		//canvas.drawText("FPS: " + Monitor.getFps(), x, y, text);
 		text.setColor(Color.GREEN);
 		canvas.drawText("FPS: " + df.format(Monitor.getFps()), x + 10, y + 20, text);
 		text.setColor(Color.CYAN);
 		canvas.drawText("UPS: " + df.format(Monitor.getUps()), x + 10, y + 35, text);
 		text.setColor(Color.YELLOW);
-		canvas.drawText("Update: " + df.format(Monitor.getUpdateTime()) + "s", x + 10, y + 50, text);
+		canvas.drawText("Update: " + df.format(Monitor.getUpdateTime()), x + 10, y + 50, text);
 		text.setColor(Color.MAGENTA);
-		canvas.drawText("Draw: " + df.format(Monitor.getDrawTime()) + "s", x + 10, y + 65, text);
+		canvas.drawText("Draw: " + df.format(Monitor.getDrawTime()), x + 10, y + 65, text);
 		text.setColor(Color.GRAY);
-		canvas.drawText("Sleep: " + df.format(Monitor.getSleepTime()) + "s", x + 10, y + 80, text);
-		*/
+		canvas.drawText("Sleep: " + df.format(Monitor.getSleepTime()), x + 10, y + 80, text);
 	}
 }

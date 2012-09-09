@@ -12,8 +12,8 @@ public class Monitor {
 	protected static int frameCount, updateCount;
 	protected static long timeLast;
 	protected static long updateSum, drawSum, sleepSum;
-	protected static long updateTime, drawTime, sleepTime;
-	protected static double fps, ups;
+	protected static float updateTime, drawTime, sleepTime;
+	protected static float fps, ups;
 
 	private Monitor() {
 		reset();
@@ -26,6 +26,7 @@ public class Monitor {
 		updateSum += deltaTime();
 		updateCount++;
 		phase = UPDATE;
+		update();
 	}
 
 	/**
@@ -35,6 +36,7 @@ public class Monitor {
 		drawSum += deltaTime();
 		frameCount++;
 		phase = DRAW;
+		update();
 	}
 
 	/**
@@ -50,7 +52,7 @@ public class Monitor {
 	 * Updates the monitor.
 	 */
 	public static void update() {
-		long timeSum, divider;
+		float timeSum, divider;
 
 		timeSum = updateSum + drawSum + sleepSum;
 
@@ -92,23 +94,23 @@ public class Monitor {
 	// Getters and setters
 	// ----------------------------------------
 
-	public static double getFps() {
+	public static float getFps() {
 		return fps;
 	}
 
-	public static double getUps() {
+	public static float getUps() {
 		return ups;
 	}
 
-	public static long getUpdateTime() {
+	public static float getUpdateTime() {
 		return updateTime;
 	}
 
-	public static long getDrawTime() {
+	public static float getDrawTime() {
 		return drawTime;
 	}
 
-	public static long getSleepTime() {
+	public static float getSleepTime() {
 		return sleepTime;
 	}
 }

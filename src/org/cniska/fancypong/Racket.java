@@ -3,7 +3,7 @@ package org.cniska.fancypong;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import org.cniska.phaser.core.GameObject;
+import org.cniska.phaser.node.GameObject;
 import org.cniska.phaser.core.GameView;
 
 public class Racket extends GameObject {
