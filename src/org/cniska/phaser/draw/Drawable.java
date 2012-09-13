@@ -3,6 +3,7 @@ package org.cniska.phaser.draw;
 import android.graphics.Canvas;
 
 public interface Drawable {
+
 	/**
 	 * Draws the object.
 	 *

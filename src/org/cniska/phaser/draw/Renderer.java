@@ -2,21 +2,21 @@ package org.cniska.phaser.draw;
 
 import android.graphics.Canvas;
 import org.cniska.phaser.core.GameView;
-import org.cniska.phaser.node.GameNode;
-import org.cniska.phaser.node.GameObject;
+import org.cniska.phaser.node.Sprite;
+import org.cniska.phaser.node.Node;
 
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Vector;
 
-public class Renderer extends GameNode {
+public class Renderer extends Node {
 
 	// Member variables
 	// ----------------------------------------
 
-	private Vector<GameObject> objects;
-	private zIndexComparator comparator;
-	private boolean sorted = false;
+	protected Vector<Sprite> sprites;
+	protected zIndexComparator comparator;
+	protected boolean sorted = false;
 
 	// Methods
 	// ----------------------------------------
@@ -24,61 +24,69 @@ public class Renderer extends GameNode {
 	/**
 	 * Creates a new renderer.
 	 *
-	 * @param view The parent view.
+	 * @param view The game view.
 	 */
 	public Renderer(GameView view) {
 		super(view);
 
-		objects = new Vector<GameObject>();
+		sprites = new Vector<Sprite>();
 		comparator = new zIndexComparator();
 	}
 
 	/**
-	 * Adds an object to the renderer.
+	 * Adds an sprite to the renderer.
 	 *
-	 * @param object The object to add.
+	 * @param sprite The sprite to add.
 	 */
-	public void add(GameObject object) {
-		objects.add(object);
+	public void add(Sprite sprite) {
+		sprites.add(sprite);
 		sorted = false;
 	}
 
 	/**
-	 * Removes an object from the renderer.
+	 * Removes an sprite from the renderer.
 	 *
-	 * @param object The object to remove.
+	 * @param sprite The sprite to remove.
 	 */
-	public void remove(GameObject object) {
-		objects.remove(object);
+	public void remove(Sprite sprite) {
+		sprites.remove(sprite);
 	}
 
 	/**
-	 * Renders the visible objects.
+	 * Renders the visible sprites.
 	 *
 	 * @param canvas The canvas.
 	 */
 	public void render(Canvas canvas) {
-		for (GameObject obj : objects) {
-			if (obj.isVisible())
-				obj.draw(canvas);
+		for (Sprite sprite : sprites) {
+			if (sprite.isVisible()) {
+				sprite.draw(canvas);
+			}
 		}
 	}
 
 	/**
-	 * Sorts the objects using the z-index comparator.
+	 * Empties the renderer.
 	 */
-	private void sort() {
-		Collections.sort(objects, comparator);
+	public void flush() {
+		sprites.clear();
+	}
+
+	/**
+	 * Sorts the sprites using the z-index comparator.
+	 */
+	protected void sort() {
+		Collections.sort(sprites, comparator);
 	}
 
 	// Overridden methods
 	// ----------------------------------------
 
 	@Override
-	public void update() {
-		super.update();
+	public void update(Node parent) {
+		super.update(parent);
 
-		// Sort objects if necessary.
+		// Sort sprites if necessary.
 		if (!sorted) {
 			sort();
 			sorted = true;
@@ -88,10 +96,10 @@ public class Renderer extends GameNode {
 	// Inner classes
 	// ----------------------------------------
 
-	private class zIndexComparator implements Comparator<GameObject> {
+	protected class zIndexComparator implements Comparator<Sprite> {
 
 		@Override
-		public int compare(GameObject lhs, GameObject rhs) {
+		public int compare(Sprite lhs, Sprite rhs) {
 			return lhs.getzIndex() - rhs.getzIndex();
 		}
 	}

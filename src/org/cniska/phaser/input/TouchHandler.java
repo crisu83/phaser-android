@@ -1,37 +1,23 @@
 package org.cniska.phaser.input;
 
 import android.view.MotionEvent;
-import org.cniska.phaser.core.GameView;
-import org.cniska.phaser.node.GameNode;
-import org.cniska.phaser.node.GameObject;
+import org.cniska.phaser.event.Publisher;
+import org.cniska.phaser.event.Subscriber;
 
 import java.util.Vector;
 
-public class TouchHandler extends GameNode {
+public class TouchHandler extends Publisher {
 
-	private Vector<TouchListener> listeners;
+	// Methods
+	// ----------------------------------------
 
-	/**
-	 * Creates a new input manager.
-	 *
-	 * @param view The parent view.
-	 */
-	public TouchHandler(GameView view) {
-		super(view);
-
-		listeners = new Vector<TouchListener>();
-	}
-
-	public void addListener(TouchListener listener) {
-		listeners.add(listener);
-	}
-
-	public void removeListener(TouchListener listener) {
-		listeners.remove(listener);
+	public TouchHandler() {
+		super();
 	}
 
 	public void onTouch(MotionEvent event) {
-		for (TouchListener obj : listeners)
-			obj.onTouch(event);
+		for (Subscriber obj : subscribers) {
+			((TouchListener) obj).onTouch(event);
+		}
 	}
 }

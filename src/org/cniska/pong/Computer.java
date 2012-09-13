@@ -1,6 +1,7 @@
-package org.cniska.fancypong;
+package org.cniska.pong;
 
 import org.cniska.phaser.core.GameView;
+import org.cniska.phaser.node.Node;
 
 public class Computer extends Racket {
 
@@ -9,12 +10,12 @@ public class Computer extends Racket {
 	public Computer(GameView view) {
 		super(view);
 
-		setPosition(1100, 295);
+		position(1100, 295);
 	}
 
 	@Override
-	public void update() {
-		super.update();
+	public void update(Node parent) {
+		super.update(parent);
 
 		if (ball != null)
 			y = ball.getY() - 65;

@@ -3,10 +3,10 @@ package org.cniska.phaser.ui;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import org.cniska.phaser.node.GameObject;
 import org.cniska.phaser.core.GameView;
+import org.cniska.phaser.node.Sprite;
 
-public class GamePanel extends GameObject {
+public class Panel extends Sprite {
 
 	// Member variables
 	// ----------------------------------------
@@ -17,11 +17,11 @@ public class GamePanel extends GameObject {
 	// ----------------------------------------
 
 	/**
-	 * Creates a new game panel.
+	 * Creates a new panel.
 	 *
-	 * @param view The parent view.
+	 * @param view The game view.
 	 */
-	public GamePanel(GameView view) {
+	public Panel(GameView view) {
 		super(view);
 
 		background = new Paint();
@@ -30,7 +30,7 @@ public class GamePanel extends GameObject {
 
 	@Override
 	public void draw(Canvas canvas) {
-		canvas.drawRect(x, y, getX2(), getY2(), background);
+		canvas.drawRect(x, y, x2(), y2(), background);
 	}
 
 	// Getters and setters

@@ -5,11 +5,11 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import org.cniska.phaser.core.GameView;
 import org.cniska.phaser.debug.Monitor;
-import org.cniska.phaser.ui.GamePanel;
+import org.cniska.phaser.ui.Panel;
 
 import java.text.DecimalFormat;
 
-public class MonitorPanel extends GamePanel {
+public class MonitorPanel extends Panel {
 
 	private Paint text;
 	private DecimalFormat df;
@@ -29,8 +29,8 @@ public class MonitorPanel extends GamePanel {
 		background.setAlpha(80);
 		setBackground(background);
 
-		setPosition(10, 10);
-		setSize(100, 90);
+		position(10, 10);
+		size(100, 75);
 		setzIndex(100);
 	}
 
@@ -38,16 +38,13 @@ public class MonitorPanel extends GamePanel {
 	public void draw(Canvas canvas) {
 		super.draw(canvas);
 
-		//canvas.drawText("FPS: " + Monitor.getFps(), x, y, text);
-		text.setColor(Color.GREEN);
-		canvas.drawText("FPS: " + df.format(Monitor.getFps()), x + 10, y + 20, text);
 		text.setColor(Color.CYAN);
-		canvas.drawText("UPS: " + df.format(Monitor.getUps()), x + 10, y + 35, text);
+		canvas.drawText("FPS: " + df.format(Monitor.getFps()), x + 10, y + 20, text);
 		text.setColor(Color.YELLOW);
-		canvas.drawText("Update: " + df.format(Monitor.getUpdateTime()), x + 10, y + 50, text);
+		canvas.drawText("Update: " + df.format(Monitor.getUpdateTime()), x + 10, y + 35, text);
 		text.setColor(Color.MAGENTA);
-		canvas.drawText("Draw: " + df.format(Monitor.getDrawTime()), x + 10, y + 65, text);
+		canvas.drawText("Draw: " + df.format(Monitor.getDrawTime()), x + 10, y + 50, text);
 		text.setColor(Color.GRAY);
-		canvas.drawText("Sleep: " + df.format(Monitor.getSleepTime()), x + 10, y + 80, text);
+		canvas.drawText("Sleep: " + df.format(Monitor.getSleepTime()), x + 10, y + 65, text);
 	}
 }

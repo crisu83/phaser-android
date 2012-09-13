@@ -1,4 +1,4 @@
-package org.cniska.fancypong;
+package org.cniska.invaders;
 
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
@@ -7,6 +7,7 @@ import android.util.DisplayMetrics;
 import android.view.Window;
 import android.view.WindowManager;
 import org.cniska.phaser.core.GameView;
+import org.cniska.pong.Pong;
 
 public class Main extends Activity {
 
@@ -31,7 +32,8 @@ public class Main extends Activity {
 
 		// Calculate the period and create the game.
 		long period = (long) 1000.0 / TARGET_FPS;
-		GameView view = new FancyPong(period * 1000000L, this);
+		GameView view = new Invaders(period * 1000000L, this);
+		view.setDebug(true);
         setContentView(view);
     }
 }

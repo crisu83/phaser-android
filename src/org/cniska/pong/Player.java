@@ -1,4 +1,4 @@
-package org.cniska.fancypong;
+package org.cniska.pong;
 
 import android.view.MotionEvent;
 import org.cniska.phaser.core.GameView;
@@ -11,11 +11,11 @@ public class Player extends Racket implements TouchListener {
 	public Player(GameView view) {
 		super(view);
 
-		setPosition(20, 295);
+		position(20, 295);
 	}
 
 	@Override
-	public void handleInput() {
+	public void input() {
 		if (touch != null) {
 			y = (int) (touch.getY() - 75);
 			touch = null;

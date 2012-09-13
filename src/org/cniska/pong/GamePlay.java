@@ -1,10 +1,11 @@
-package org.cniska.fancypong;
+package org.cniska.pong;
 
 import org.cniska.phaser.draw.Renderer;
-import org.cniska.phaser.node.GameScene;
+import org.cniska.phaser.node.Node;
+import org.cniska.phaser.node.Scene;
 import org.cniska.phaser.core.GameView;
 
-public class GamePlay extends GameScene {
+public class GamePlay extends Scene {
 
 	private Ball ball;
 	private Player player;
@@ -15,31 +16,27 @@ public class GamePlay extends GameScene {
 	}
 
 	@Override
-	public void init() {
-		FancyPong view = (FancyPong) getView();
+	public void setup() {
+		Node gameRoot = view.getGameRoot();
 		Renderer renderer = view.getRenderer();
 
 		player = new Player(view);
+		gameRoot.add(player);
+		renderer.add(player);
+
 		computer = new Computer(view);
+		gameRoot.add(computer);
+		renderer.add(computer);
+
 		ball = new Ball(view);
 		ball.setPlayer(player);
 		ball.setComputer(computer);
+		gameRoot.add(ball);
+		renderer.add(ball);
+
 		computer.setBall(ball);
 
 		// Player wants to listen for touch events.
-		view.getTouchHandler().addListener(player);
-
-		renderer.add(player);
-		renderer.add(computer);
-		renderer.add(ball);
-	}
-
-	@Override
-	public void update() {
-		super.update();
-
-		ball.update();
-		player.update();
-		computer.update();
+		view.getTouchHandler().subscribe(player);
 	}
 }
