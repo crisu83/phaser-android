@@ -1,10 +1,13 @@
 package org.cniska.phaser.node;
 
+import android.graphics.Canvas;
 import org.cniska.phaser.core.GameView;
+import org.cniska.phaser.render.Renderer;
+import org.cniska.phaser.render.SpriteRenderer;
 
 import java.util.Hashtable;
 
-public class SceneManager extends Node {
+public class Director extends Node implements Renderer {
 
 	// Member variables
 	// ----------------------------------------
@@ -20,9 +23,8 @@ public class SceneManager extends Node {
 	 *
 	 * @param view The game view.
 	 */
-	public SceneManager(GameView view) {
+	public Director(GameView view) {
 		super(view);
-
 		scenes = new Hashtable<String, Scene>();
 	}
 
@@ -43,20 +45,9 @@ public class SceneManager extends Node {
 	 */
 	public void set(String name) {
 		if (scenes.containsKey(name)) {
-			view.getRenderer().flush();
 			currentScene = scenes.get(name);
 			currentScene.setup();
 		}
-	}
-
-	/**
-	 * Removes a scene from the manager.
-	 *
-	 * @param name The scene name.
-	 * @return The removed scene.
-	 */
-	public Scene remove(String name) {
-		return scenes.remove(name);
 	}
 
 	// Overridden methods
@@ -71,10 +62,11 @@ public class SceneManager extends Node {
 		}
 	}
 
-	// Getters and setters
-	// ----------------------------------------
-
-	public Scene getCurrentScene() {
-		return currentScene;
+	@Override
+	public void render(Canvas canvas) {
+		if (currentScene != null) {
+			SpriteRenderer renderer = currentScene.getRenderer();
+			renderer.render(canvas);
+		}
 	}
 }

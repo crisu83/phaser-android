@@ -8,11 +8,10 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import org.cniska.phaser.debug.Logger;
 import org.cniska.phaser.debug.ui.MonitorPanel;
-import org.cniska.phaser.draw.ImageLoader;
-import org.cniska.phaser.draw.Renderer;
 import org.cniska.phaser.input.TouchHandler;
+import org.cniska.phaser.node.Director;
 import org.cniska.phaser.node.Node;
-import org.cniska.phaser.node.SceneManager;
+import org.cniska.phaser.render.ImageLoader;
 
 public abstract class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
@@ -23,14 +22,13 @@ public abstract class GameView extends SurfaceView implements SurfaceHolder.Call
 
     private GameLoop gameLoop;
     private Thread animator;
-	private Node gameRoot;
-	private ImageLoader imageLoader;
-	private volatile Renderer renderer;
-	private SceneManager sceneManager;
-	private TouchHandler touchHandler;
 	private MonitorPanel monitor;
 	private boolean debug = false;
 
+	protected Node gameRoot;
+	protected ImageLoader imageLoader;
+	protected Director director;
+	protected TouchHandler touchHandler;
 
     // Methods
     // ----------------------------------------
@@ -59,11 +57,8 @@ public abstract class GameView extends SurfaceView implements SurfaceHolder.Call
 	protected void init() {
 		gameRoot = new Node(this);
 
-		renderer = new Renderer(this);
-		gameRoot.add(renderer);
-
-		sceneManager = new SceneManager(this);
-		gameRoot.add(sceneManager);
+		director = new Director(this);
+		gameRoot.add(director);
 
 		imageLoader = new ImageLoader(this);
 		touchHandler = new TouchHandler();
@@ -118,7 +113,7 @@ public abstract class GameView extends SurfaceView implements SurfaceHolder.Call
 	 */
 	public void draw(Canvas canvas) {
 		canvas.drawColor(Color.BLACK);
-		renderer.render(canvas);
+		director.render(canvas);
 
 		if (debug) {
 			gameRoot.debug(null, canvas);
@@ -163,20 +158,16 @@ public abstract class GameView extends SurfaceView implements SurfaceHolder.Call
 	// Getters and setters
 	// ----------------------------------------
 
+	public Director getDirector() {
+		return director;
+	}
+
 	public ImageLoader getImageLoader() {
 		return imageLoader;
 	}
 
-	public Renderer getRenderer() {
-		return renderer;
-	}
-
 	public Node getGameRoot() {
 		return gameRoot;
-	}
-
-	public SceneManager getSceneManager() {
-		return sceneManager;
 	}
 
 	public TouchHandler getTouchHandler() {

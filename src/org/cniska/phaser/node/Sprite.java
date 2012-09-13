@@ -4,8 +4,9 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import org.cniska.phaser.core.GameView;
-import org.cniska.phaser.draw.Animation;
-import org.cniska.phaser.draw.Drawable;
+import org.cniska.phaser.debug.Logger;
+import org.cniska.phaser.render.Animation;
+import org.cniska.phaser.render.Drawable;
 
 import java.util.Hashtable;
 
@@ -33,17 +34,6 @@ public abstract class Sprite extends Entity implements Drawable {
 		animations = new Hashtable<String, Animation>();
 	}
 
-	public void addAnimation(String name, Animation animation) {
-		animations.put(name, animation);
-	}
-
-	public void playAnimation(String name) {
-		if (animations.containsKey(name)) {
-			currentAnimation = animations.get(name);
-			currentAnimation.play();
-		}
-	}
-
 	/**
 	 * Loads the bitmap with the given resource id.
 	 *
@@ -53,12 +43,44 @@ public abstract class Sprite extends Entity implements Drawable {
 		bitmap = view.getImageLoader().load(resourceId);
 	}
 
-	public int bitmapX() {
-		return currentAnimation != null ? currentAnimation.bitmapX() : 0;
+	/**
+	 * Adds an animation to the sprite.
+	 *
+	 * @param name The animation name.
+	 * @param animation The animation itself.
+	 */
+	public void addAnimation(String name, Animation animation) {
+		animations.put(name, animation);
 	}
 
-	public int bitmapY() {
-		return currentAnimation != null ? currentAnimation.bitmapY() : 0;
+	/**
+	 * Plays the given animation.
+	 *
+	 * @param name The animation name.
+	 */
+	public void playAnimation(String name) {
+		if (animations.containsKey(name)) {
+			currentAnimation = animations.get(name);
+			currentAnimation.play();
+		}
+	}
+
+	/**
+	 * Returns the bitmap offset on the x-axis.
+	 *
+	 * @return The offset in pixels.
+	 */
+	protected int ox() {
+		return currentAnimation != null ? currentAnimation.ox() : 0;
+	}
+
+	/**
+	 * Returns the bitmap offset on the y-axis.
+	 *
+	 * @return The offset in pixels.
+	 */
+	protected int oy() {
+		return currentAnimation != null ? currentAnimation.oy() : 0;
 	}
 
 	// Overridden methods
@@ -76,7 +98,8 @@ public abstract class Sprite extends Entity implements Drawable {
 	@Override
 	public void draw(Canvas canvas) {
 		if (bitmap != null) {
-			Rect src = new Rect(bitmapX(), bitmapY(), bitmapY() + width, bitmapY() + height);
+			Logger.debug(getClass().getCanonicalName(), "ox: " + ox() + ", oy: " + oy());
+			Rect src = new Rect(ox(), oy(), ox() + width, oy() + height);
 			Rect dst = new Rect(x, y, x2(), y2());
 			canvas.drawBitmap(bitmap, src, dst, null);
 		}

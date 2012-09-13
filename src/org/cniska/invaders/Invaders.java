@@ -2,8 +2,7 @@ package org.cniska.invaders;
 
 import android.content.Context;
 import org.cniska.phaser.core.GameView;
-import org.cniska.phaser.debug.ui.MonitorPanel;
-import org.cniska.phaser.node.SceneManager;
+import org.cniska.phaser.node.Scene;
 
 public class Invaders extends GameView {
 
@@ -19,8 +18,8 @@ public class Invaders extends GameView {
 
 	@Override
 	public void setup() {
-		SceneManager sceneManager = getSceneManager();
-		sceneManager.add("gameplay", new GamePlay(this));
-		sceneManager.set("gameplay");
+		Scene gamePlay = new GamePlay(this);
+		director.add("gameplay", gamePlay);
+		director.set("gameplay");
 	}
 }

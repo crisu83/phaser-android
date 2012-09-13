@@ -1,17 +1,14 @@
 package org.cniska.phaser.node;
 
-import android.graphics.Canvas;
 import org.cniska.phaser.core.GameView;
-import org.cniska.phaser.draw.Drawable;
-import org.cniska.phaser.draw.Renderer;
-import org.cniska.phaser.input.TouchListener;
+import org.cniska.phaser.render.SpriteRenderer;
 
 abstract public class Scene extends Node {
 
 	// Member variables
 	// ----------------------------------------
 
-	protected Renderer renderer;
+	protected SpriteRenderer renderer;
 
 	// Methods
 	// ----------------------------------------
@@ -23,7 +20,7 @@ abstract public class Scene extends Node {
 	 */
 	public Scene(GameView view) {
 		super(view);
-		renderer = new Renderer(view);
+		renderer = new SpriteRenderer(view);
 		add(renderer);
 	}
 
@@ -34,4 +31,11 @@ abstract public class Scene extends Node {
 	 * Setups the scene.
 	 */
 	public abstract void setup();
+
+	// Getters and setters
+	// ----------------------------------------
+
+	public SpriteRenderer getRenderer() {
+		return renderer;
+	}
 }

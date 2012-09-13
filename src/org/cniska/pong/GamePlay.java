@@ -1,9 +1,8 @@
 package org.cniska.pong;
 
-import org.cniska.phaser.draw.Renderer;
+import org.cniska.phaser.core.GameView;
 import org.cniska.phaser.node.Node;
 import org.cniska.phaser.node.Scene;
-import org.cniska.phaser.core.GameView;
 
 public class GamePlay extends Scene {
 
@@ -18,7 +17,6 @@ public class GamePlay extends Scene {
 	@Override
 	public void setup() {
 		Node gameRoot = view.getGameRoot();
-		Renderer renderer = view.getRenderer();
 
 		player = new Player(view);
 		gameRoot.add(player);

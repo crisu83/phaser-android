@@ -1,4 +1,4 @@
-package org.cniska.phaser.draw;
+package org.cniska.phaser.render;
 
 import android.graphics.Canvas;
 

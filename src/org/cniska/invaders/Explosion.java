@@ -1,7 +1,7 @@
 package org.cniska.invaders;
 
 import org.cniska.phaser.core.GameView;
-import org.cniska.phaser.draw.Animation;
+import org.cniska.phaser.render.Animation;
 import org.cniska.phaser.node.Actor;
 
 public class Explosion extends Actor {
@@ -25,7 +25,7 @@ public class Explosion extends Actor {
 		animation.addFrame(40, 0, 100);
 		animation.addFrame(60, 0, 100);
 		animation.addFrame(80, 0, 100);
-		addAnimation("explode", animation);
-		playAnimation("explode");
+		addAnimation("idle", animation);
+		playAnimation("idle");
 	}
 }

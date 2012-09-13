@@ -2,7 +2,7 @@ package org.cniska.invaders;
 
 import android.view.MotionEvent;
 import org.cniska.phaser.core.GameView;
-import org.cniska.phaser.draw.Animation;
+import org.cniska.phaser.render.Animation;
 import org.cniska.phaser.input.TouchListener;
 import org.cniska.phaser.node.Actor;
 

@@ -1,4 +1,4 @@
-package org.cniska.phaser.draw;
+package org.cniska.phaser.render;
 
 import android.graphics.Canvas;
 import org.cniska.phaser.core.GameView;
@@ -9,7 +9,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Vector;
 
-public class Renderer extends Node {
+public class SpriteRenderer extends Node implements Renderer {
 
 	// Member variables
 	// ----------------------------------------
@@ -26,9 +26,8 @@ public class Renderer extends Node {
 	 *
 	 * @param view The game view.
 	 */
-	public Renderer(GameView view) {
+	public SpriteRenderer(GameView view) {
 		super(view);
-
 		sprites = new Vector<Sprite>();
 		comparator = new zIndexComparator();
 	}
@@ -63,13 +62,6 @@ public class Renderer extends Node {
 				sprite.draw(canvas);
 			}
 		}
-	}
-
-	/**
-	 * Empties the renderer.
-	 */
-	public void flush() {
-		sprites.clear();
 	}
 
 	/**
