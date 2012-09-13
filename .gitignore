@@ -1,2 +1,5 @@
 /.idea/*
-/out/*
+/gen/*
+/out/production/*
+/out/res-cache/*
+/out/test/*
