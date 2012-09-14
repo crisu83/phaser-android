@@ -1,11 +1,14 @@
 package org.cniska.phaser.collision;
 
+import org.cniska.phaser.event.Event;
 import org.cniska.phaser.event.Subscriber;
-import org.cniska.phaser.node.Entity;
 
 public interface Collidable extends Subscriber {
 
-	public boolean collides(Entity other);
-
-	public void onCollision(CollisionEvent event);
+	/**
+	 * Called when the object collides.
+	 *
+	 * @param event The event.
+	 */
+	public void onCollision(Event event);
 }

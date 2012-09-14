@@ -1,17 +1,17 @@
 package org.cniska.invaders;
 
+import android.view.MotionEvent;
 import org.cniska.phaser.core.GameView;
 import org.cniska.phaser.core.Updateable;
-import org.cniska.phaser.input.TouchEvent;
 import org.cniska.phaser.input.TouchListener;
 import org.cniska.phaser.render.Animation;
 import org.cniska.phaser.scene.GameScene;
 
 public class Player extends SpaceActor implements TouchListener {
 
-	protected TouchEvent touch;
+	protected MotionEvent touch;
 	protected int missileCooldown;
-	protected long fireTime;
+	protected long reloadTime;
 	protected boolean missiles = true;
 
 	/**
@@ -22,10 +22,20 @@ public class Player extends SpaceActor implements TouchListener {
 	 */
 	public Player(GameView view, GameScene scene) {
 		super(view, scene);
-
-		explosionResource = R.drawable.explosion_02;
 		missileCooldown = 500 * 1000000; // ms -> ns
+	}
 
+	protected void fire() {
+		Rocket rocket = new Rocket(view, scene);
+		rocket.position(x + (width / 2) - (rocket.getWidth() / 2), y - 15);
+		reloadTime = System.nanoTime();
+		missiles = false;
+	}
+
+	@Override
+	public void init() {
+		position(600, 600);
+		size(20, 20);
 		loadBitmap(R.drawable.ship_01);
 
 		Animation animation = new Animation();
@@ -34,16 +44,7 @@ public class Player extends SpaceActor implements TouchListener {
 		addAnimation("idle", animation);
 		playAnimation("idle");
 
-		position(600, 600);
-		size(20, 20);
-	}
-
-	protected void fire() {
-		Rocket rocket = new Rocket(view, scene);
-		rocket.position(x + (width / 2) - (rocket.getWidth() / 2), y - 15);
-		scene.getWorld().addEntity(rocket);
-		fireTime = System.nanoTime();
-		missiles = false;
+		explosion.loadBitmap(R.drawable.explosion_02);
 	}
 
 	@Override
@@ -59,13 +60,13 @@ public class Player extends SpaceActor implements TouchListener {
 	public void update(Updateable parent) {
 		super.update(parent);
 
-		if ((System.nanoTime() - fireTime) > missileCooldown) {
+		if ((System.nanoTime() - reloadTime) > missileCooldown) {
 			missiles = true;
 		}
 	}
 
 	@Override
-	public void onTouch(TouchEvent event) {
+	public void onTouch(MotionEvent event) {
 		this.touch = event;
 	}
 }

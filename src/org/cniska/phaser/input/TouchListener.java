@@ -1,5 +1,6 @@
 package org.cniska.phaser.input;
 
+import android.view.MotionEvent;
 import org.cniska.phaser.event.Subscriber;
 
 public interface TouchListener extends Subscriber {
@@ -9,5 +10,5 @@ public interface TouchListener extends Subscriber {
 	 *
 	 * @param event The event.
 	 */
-	public void onTouch(TouchEvent event);
+	public void onTouch(MotionEvent event);
 }

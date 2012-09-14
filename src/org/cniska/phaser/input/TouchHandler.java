@@ -14,20 +14,12 @@ public class TouchHandler extends Node {
 		super(view);
 	}
 
-	public void register(MotionEvent motion) {
-		TouchEvent event = new TouchEvent("touch", this);
-		event.setMotion(motion);
-		notify(event);
-	}
-
-	public void notify(TouchEvent event) {
+	public void notify(MotionEvent event) {
 		for (int i = 0, len = subscribers.size(); i < len; i++) {
 			Subscriber subscriber = subscribers.get(i);
 
 			if (subscriber instanceof TouchListener) {
-				if (event.getAction() == "touch") {
-					((TouchListener) subscribers.get(i)).onTouch(event);
-				}
+				((TouchListener) subscribers.get(i)).onTouch(event);
 			}
 		}
 	}

@@ -1,9 +1,9 @@
 package org.cniska.invaders;
 
 import org.cniska.phaser.core.GameView;
-import org.cniska.phaser.node.Entity;
-import org.cniska.phaser.scene.GameScene;
+import org.cniska.phaser.node.Actor;
 import org.cniska.phaser.render.Animation;
+import org.cniska.phaser.scene.GameScene;
 
 public class Alien extends SpaceActor {
 
@@ -13,11 +13,15 @@ public class Alien extends SpaceActor {
 	 * @param view The game view.
 	 * @param scene The parent scene.
 	 */
-	protected Alien(GameView view, GameScene scene) {
+	public Alien(GameView view, GameScene scene) {
 		super(view, scene);
+	}
 
-		explosionResource = R.drawable.explosion_04;
+	@Override
+	public void init() {
+		super.init();
 
+		size(20, 20);
 		loadBitmap(R.drawable.ship_02);
 
 		Animation animation = new Animation();
@@ -26,11 +30,11 @@ public class Alien extends SpaceActor {
 		addAnimation("idle", animation);
 		playAnimation("idle");
 
-		size(20, 20);
+		explosion.loadBitmap(R.drawable.explosion_04);
 	}
 
 	@Override
-	public boolean collides(Entity other) {
-		return other instanceof Rocket;
+	public boolean collides(Actor other) {
+		return other instanceof Rocket && intersects(other);
 	}
 }

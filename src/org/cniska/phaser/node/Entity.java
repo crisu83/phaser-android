@@ -4,14 +4,12 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import org.cniska.phaser.collision.Collidable;
-import org.cniska.phaser.collision.CollisionEvent;
 import org.cniska.phaser.core.GameView;
 import org.cniska.phaser.core.Updateable;
 import org.cniska.phaser.event.Event;
 import org.cniska.phaser.event.Subscriber;
 
-public abstract class Entity extends Node implements Collidable {
+public abstract class Entity extends Node {
 
 	// Member variables
 	// ----------------------------------------
@@ -42,7 +40,7 @@ public abstract class Entity extends Node implements Collidable {
 	}
 
 	public void remove() {
-		notify(new Event("remove", this));
+		notify(new Event("entity:remove", this));
 		removed = true;
 	}
 
@@ -143,8 +141,8 @@ public abstract class Entity extends Node implements Collidable {
 			Subscriber subscriber = subscribers.get(i);
 
 			if (subscriber instanceof EntityListener) {
-				if (event.getAction() == "remove") {
-					((EntityListener) subscribers.get(i)).onRemove(event);
+				if (event.getAction() == "entity:remove") {
+					((EntityListener) subscribers.get(i)).onEntityRemove(event);
 				}
 			}
 		}
@@ -178,15 +176,6 @@ public abstract class Entity extends Node implements Collidable {
 		paint.setColor(Color.MAGENTA);
 		paint.setStyle(Paint.Style.STROKE);
 		canvas.drawRect(x, y, x2(), y2(), paint);
-	}
-
-	@Override
-	public boolean collides(Entity other) {
-		return false;
-	}
-
-	@Override
-	public void onCollision(CollisionEvent event) {
 	}
 
 	// Getters and setters

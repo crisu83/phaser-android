@@ -4,5 +4,11 @@ import org.cniska.phaser.event.Event;
 import org.cniska.phaser.event.Subscriber;
 
 public interface EntityListener extends Subscriber {
-	public void onRemove(Event event);
+
+	/**
+	 * Called when the entity is removed.
+	 *
+	 * @param event The event.
+	 */
+	public void onEntityRemove(Event event);
 }

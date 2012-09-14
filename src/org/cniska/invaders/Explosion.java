@@ -3,8 +3,8 @@ package org.cniska.invaders;
 import org.cniska.phaser.core.GameView;
 import org.cniska.phaser.core.Updateable;
 import org.cniska.phaser.node.Actor;
-import org.cniska.phaser.scene.GameScene;
 import org.cniska.phaser.render.Animation;
+import org.cniska.phaser.scene.GameScene;
 
 public class Explosion extends Actor {
 
@@ -17,15 +17,15 @@ public class Explosion extends Actor {
 	 * @param view The game view.
 	 * @param scene The parent scene.
 	 */
-	protected Explosion(int resourceId, GameView view, GameScene scene) {
+	public Explosion(GameView view, GameScene scene) {
 		super(view, scene);
+		lifetime = 1000 * 1000000; // ms -> ns
+		visible = false;
+	}
 
-		lifetime = 1000 * 1000000; // ns -> ms
-
-		position(600, 200);
+	@Override
+	public void init() {
 		size(20, 20);
-
-		loadBitmap(resourceId);
 
 		Animation animation = new Animation();
 		animation.addFrame(0, 0, 100);
@@ -36,18 +36,21 @@ public class Explosion extends Actor {
 		animation.addFrame(100, 0, 100); // empty frame
 		animation.setLoop(false);
 		addAnimation("explode", animation);
+
+		lifetime = 1000 * 1000000; // ns -> ms
 	}
 
-	@Override
-	public void init() {
+	public void explode() {
 		startTime = System.nanoTime();
+		visible = true;
+		playAnimation("explode");
 	}
 
 	@Override
 	public void update(Updateable parent) {
 		super.update(parent);
 
-		if ((System.nanoTime() - startTime) > lifetime) {
+		if (startTime > 0 && ((System.nanoTime() - startTime) > lifetime)) {
 			remove();
 		}
 	}

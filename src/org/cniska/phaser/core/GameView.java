@@ -153,7 +153,7 @@ public abstract class GameView extends SurfaceView implements SurfaceHolder.Call
 
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-		touchHandler.register(event);
+		touchHandler.notify(event);
 		return true;
 	}
 
