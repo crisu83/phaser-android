@@ -4,7 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import org.cniska.phaser.core.GameView;
-import org.cniska.phaser.debug.Logger;
+import org.cniska.phaser.core.Updateable;
 import org.cniska.phaser.render.Animation;
 import org.cniska.phaser.render.Drawable;
 
@@ -87,7 +87,7 @@ public abstract class Sprite extends Entity implements Drawable {
 	// ----------------------------------------
 
 	@Override
-	public void update(Node parent) {
+	public void update(Updateable parent) {
 		super.update(parent);
 
 		if (currentAnimation != null) {
@@ -98,7 +98,6 @@ public abstract class Sprite extends Entity implements Drawable {
 	@Override
 	public void draw(Canvas canvas) {
 		if (bitmap != null) {
-			Logger.debug(getClass().getCanonicalName(), "ox: " + ox() + ", oy: " + oy());
 			Rect src = new Rect(ox(), oy(), ox() + width, oy() + height);
 			Rect dst = new Rect(x, y, x2(), y2());
 			canvas.drawBitmap(bitmap, src, dst, null);

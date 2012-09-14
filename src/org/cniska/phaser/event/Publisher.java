@@ -1,13 +1,14 @@
 package org.cniska.phaser.event;
 
-import java.util.Vector;
+import org.cniska.phaser.core.Updateable;
+import org.cniska.phaser.util.List;
 
-public abstract class Publisher {
+public abstract class Publisher implements Updateable {
 
 	// Member variables
 	// ----------------------------------------
 
-	protected Vector<Subscriber> subscribers;
+	protected List<Subscriber> subscribers;
 
 	// Methods
 	// ----------------------------------------
@@ -16,7 +17,7 @@ public abstract class Publisher {
 	 * Creates a new publisher.
 	 */
 	protected Publisher() {
-		subscribers = new Vector<Subscriber>();
+		subscribers = new List<Subscriber>();
 	}
 
 	/**
@@ -24,7 +25,7 @@ public abstract class Publisher {
 	 *
 	 * @param subscriber The subscriber to add.
 	 */
-	public void subscribe(Subscriber subscriber) {
+	public void attach(Subscriber subscriber) {
 		subscribers.add(subscriber);
 	}
 
@@ -33,7 +34,15 @@ public abstract class Publisher {
 	 *
 	 * @param subscriber The subscriber to remove.
 	 */
-	public void unsubscribe(Subscriber subscriber) {
+	public void detach(Subscriber subscriber) {
 		subscribers.remove(subscriber);
+	}
+
+	// Overridden methods
+	// ----------------------------------------
+
+	@Override
+	public void update(Updateable parent) {
+		subscribers.update(this);
 	}
 }

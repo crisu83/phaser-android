@@ -2,21 +2,19 @@ package org.cniska.phaser.render;
 
 import android.graphics.Canvas;
 import org.cniska.phaser.core.GameView;
-import org.cniska.phaser.node.Sprite;
+import org.cniska.phaser.core.Updateable;
 import org.cniska.phaser.node.Node;
+import org.cniska.phaser.node.Sprite;
+import org.cniska.phaser.util.SortedList;
 
-import java.util.Collections;
 import java.util.Comparator;
-import java.util.Vector;
 
 public class SpriteRenderer extends Node implements Renderer {
 
 	// Member variables
 	// ----------------------------------------
 
-	protected Vector<Sprite> sprites;
-	protected zIndexComparator comparator;
-	protected boolean sorted = false;
+	protected SortedList<Sprite> sprites;
 
 	// Methods
 	// ----------------------------------------
@@ -28,8 +26,7 @@ public class SpriteRenderer extends Node implements Renderer {
 	 */
 	public SpriteRenderer(GameView view) {
 		super(view);
-		sprites = new Vector<Sprite>();
-		comparator = new zIndexComparator();
+		sprites = new SortedList<Sprite>(new zIndexComparator());
 	}
 
 	/**
@@ -37,9 +34,8 @@ public class SpriteRenderer extends Node implements Renderer {
 	 *
 	 * @param sprite The sprite to add.
 	 */
-	public void add(Sprite sprite) {
+	public void addSprite(Sprite sprite) {
 		sprites.add(sprite);
-		sorted = false;
 	}
 
 	/**
@@ -47,7 +43,7 @@ public class SpriteRenderer extends Node implements Renderer {
 	 *
 	 * @param sprite The sprite to remove.
 	 */
-	public void remove(Sprite sprite) {
+	public void removeSprite(Sprite sprite) {
 		sprites.remove(sprite);
 	}
 
@@ -57,32 +53,22 @@ public class SpriteRenderer extends Node implements Renderer {
 	 * @param canvas The canvas.
 	 */
 	public void render(Canvas canvas) {
-		for (Sprite sprite : sprites) {
+		for (int i = 0, len = sprites.size(); i < len; i++) {
+			Sprite sprite = sprites.get(i);
 			if (sprite.isVisible()) {
 				sprite.draw(canvas);
 			}
 		}
 	}
 
-	/**
-	 * Sorts the sprites using the z-index comparator.
-	 */
-	protected void sort() {
-		Collections.sort(sprites, comparator);
-	}
-
 	// Overridden methods
 	// ----------------------------------------
 
 	@Override
-	public void update(Node parent) {
+	public void update(Updateable parent) {
 		super.update(parent);
 
-		// Sort sprites if necessary.
-		if (!sorted) {
-			sort();
-			sorted = true;
-		}
+		sprites.update(this);
 	}
 
 	// Inner classes

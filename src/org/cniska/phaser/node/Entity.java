@@ -3,9 +3,15 @@ package org.cniska.phaser.node;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
+import org.cniska.phaser.collision.Collidable;
+import org.cniska.phaser.collision.CollisionEvent;
 import org.cniska.phaser.core.GameView;
+import org.cniska.phaser.core.Updateable;
+import org.cniska.phaser.event.Event;
+import org.cniska.phaser.event.Subscriber;
 
-public abstract class Entity extends Node {
+public abstract class Entity extends Node implements Collidable {
 
 	// Member variables
 	// ----------------------------------------
@@ -14,6 +20,7 @@ public abstract class Entity extends Node {
 	protected int width, height;
 	protected float vx, vy;
 	protected float ax, ay;
+	protected boolean removed = false;
 
 	// Methods
 	// ----------------------------------------
@@ -32,6 +39,11 @@ public abstract class Entity extends Node {
 	 * Override this method to apply input logic.
 	 */
 	public void input() {
+	}
+
+	public void remove() {
+		notify(new Event("remove", this));
+		removed = true;
 	}
 
 	/**
@@ -97,6 +109,18 @@ public abstract class Entity extends Node {
 	}
 
 	/**
+	 * Returns whether the entity intersects the other entity.
+	 *
+	 * @param other The other entity.
+	 * @return The result.
+	 */
+	public boolean intersects(Entity other) {
+		Rect r1 = new Rect(x, y, x2(), y2());
+		Rect r2 = new Rect(other.getX(), other.getY(), other.x2(), other.y2());
+		return r1.intersect(r2);
+	}
+
+	/**
 	 * Returns true if the object is moving, otherwise false.
 	 *
 	 * @return The result.
@@ -114,11 +138,23 @@ public abstract class Entity extends Node {
 		return ax != 0 || ay != 0;
 	}
 
+	public void notify(Event event) {
+		for (int i = 0, len = subscribers.size(); i < len; i++) {
+			Subscriber subscriber = subscribers.get(i);
+
+			if (subscriber instanceof EntityListener) {
+				if (event.getAction() == "remove") {
+					((EntityListener) subscribers.get(i)).onRemove(event);
+				}
+			}
+		}
+	}
+
 	// Overridden methods
 	// ----------------------------------------
 
 	@Override
-	public void update(Node parent) {
+	public void update(Updateable parent) {
 		super.update(parent);
 
 		input();
@@ -142,6 +178,15 @@ public abstract class Entity extends Node {
 		paint.setColor(Color.MAGENTA);
 		paint.setStyle(Paint.Style.STROKE);
 		canvas.drawRect(x, y, x2(), y2(), paint);
+	}
+
+	@Override
+	public boolean collides(Entity other) {
+		return false;
+	}
+
+	@Override
+	public void onCollision(CollisionEvent event) {
 	}
 
 	// Getters and setters
@@ -209,5 +254,13 @@ public abstract class Entity extends Node {
 
 	public void setAy(float ay) {
 		this.ay = ay;
+	}
+
+	public boolean isRemoved() {
+		return removed;
+	}
+
+	public void setRemoved(boolean removed) {
+		this.removed = removed;
 	}
 }

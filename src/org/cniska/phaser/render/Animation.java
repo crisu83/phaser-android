@@ -1,9 +1,7 @@
 package org.cniska.phaser.render;
 
-import org.cniska.phaser.node.Node;
-import org.cniska.phaser.node.Updateable;
-
-import java.util.Vector;
+import org.cniska.phaser.core.Updateable;
+import org.cniska.phaser.util.List;
 
 public class Animation implements Updateable {
 
@@ -12,7 +10,7 @@ public class Animation implements Updateable {
 
 	protected int currentIndex;
 	protected int frameCount = 0;
-	protected Vector<Frame> frames;
+	protected List<Frame> frames;
 	protected long startTime, playTime, totalTime;
 	protected boolean playing = false;
 	protected boolean loop = true;
@@ -21,7 +19,7 @@ public class Animation implements Updateable {
 	// ----------------------------------------
 
 	public Animation() {
-		frames = new Vector<Frame>();
+		frames = new List<Frame>();
 	}
 
 	/**
@@ -84,7 +82,9 @@ public class Animation implements Updateable {
 	}
 
 	@Override
-	public void update(Node parent) {
+	public void update(Updateable parent) {
+		frames.update(this);
+
 		if (playing && frameCount > 0) {
 			Frame frame = frames.get(currentIndex);
 			playTime = System.nanoTime() - startTime;
@@ -97,6 +97,13 @@ public class Animation implements Updateable {
 				play();
 			}
 		}
+	}
+
+	// Getters and setters
+	// ----------------------------------------
+
+	public void setLoop(boolean loop) {
+		this.loop = loop;
 	}
 
 	// Inner classes

@@ -1,6 +1,7 @@
-package org.cniska.phaser.node;
+package org.cniska.phaser.scene;
 
 import org.cniska.phaser.core.GameView;
+import org.cniska.phaser.node.Node;
 import org.cniska.phaser.render.SpriteRenderer;
 
 abstract public class Scene extends Node {
@@ -21,7 +22,7 @@ abstract public class Scene extends Node {
 	public Scene(GameView view) {
 		super(view);
 		renderer = new SpriteRenderer(view);
-		add(renderer);
+		addNode(renderer);
 	}
 
 	// Abstract methods

@@ -9,9 +9,9 @@ import android.view.SurfaceView;
 import org.cniska.phaser.debug.Logger;
 import org.cniska.phaser.debug.ui.MonitorPanel;
 import org.cniska.phaser.input.TouchHandler;
-import org.cniska.phaser.node.Director;
 import org.cniska.phaser.node.Node;
 import org.cniska.phaser.render.ImageLoader;
+import org.cniska.phaser.scene.Director;
 
 public abstract class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
@@ -58,13 +58,15 @@ public abstract class GameView extends SurfaceView implements SurfaceHolder.Call
 		gameRoot = new Node(this);
 
 		director = new Director(this);
-		gameRoot.add(director);
+		gameRoot.addNode(director);
 
 		imageLoader = new ImageLoader(this);
-		touchHandler = new TouchHandler();
+
+		touchHandler = new TouchHandler(this);
+		gameRoot.addNode(touchHandler);
 
 		monitor = new MonitorPanel(this);
-		gameRoot.add(monitor);
+		gameRoot.addNode(monitor);
 	}
 
     /**
@@ -151,7 +153,7 @@ public abstract class GameView extends SurfaceView implements SurfaceHolder.Call
 
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-		touchHandler.onTouch(event);
+		touchHandler.register(event);
 		return true;
 	}
 

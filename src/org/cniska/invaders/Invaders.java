@@ -2,7 +2,7 @@ package org.cniska.invaders;
 
 import android.content.Context;
 import org.cniska.phaser.core.GameView;
-import org.cniska.phaser.node.Scene;
+import org.cniska.phaser.scene.Scene;
 
 public class Invaders extends GameView {
 
