@@ -2,11 +2,13 @@ package org.cniska.phaser.collision;
 
 import org.cniska.phaser.core.GameView;
 import org.cniska.phaser.core.Updateable;
+import org.cniska.phaser.event.Event;
 import org.cniska.phaser.node.Entity;
+import org.cniska.phaser.node.EntityListener;
 import org.cniska.phaser.node.Node;
 import org.cniska.phaser.util.List;
 
-public class CollisionHandler extends Node {
+public class CollisionHandler extends Node implements EntityListener {
 
 	protected List<Entity> entities;
 
@@ -16,7 +18,18 @@ public class CollisionHandler extends Node {
 	}
 
 	public void addEntity(Entity entity) {
+		entity.attach(this);
 		entities.add(entity);
+	}
+
+	public void removeEntity(Entity entity) {
+		entity.detach(this);
+		entities.remove(entity);
+	}
+
+	@Override
+	public void onRemove(Event event) {
+		removeEntity((Entity) event.getSource());
 	}
 
 	@Override
