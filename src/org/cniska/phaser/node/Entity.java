@@ -1,8 +1,5 @@
 package org.cniska.phaser.node;
 
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.Rect;
 import org.cniska.phaser.core.GameView;
 import org.cniska.phaser.core.Updateable;
@@ -14,10 +11,8 @@ public abstract class Entity extends Node {
 	// Member variables
 	// ----------------------------------------
 
-	protected int x, y;
-	protected int width, height;
-	protected float vx, vy;
-	protected float ax, ay;
+	protected int x, y, width, height;
+	protected float vx, vy, ax, ay;
 	protected boolean removed = false;
 
 	// Methods
@@ -136,6 +131,31 @@ public abstract class Entity extends Node {
 		return ax != 0 || ay != 0;
 	}
 
+	// Overridden methods
+	// ----------------------------------------
+
+	@Override
+	public void update(Updateable parent) {
+		if (!removed) {
+			super.update(parent);
+
+			input();
+
+			// Apply movement if necessary.
+			if (isMoving()) {
+				x += vx;
+				y += vy;
+			}
+
+			// Apply acceleration if necessary.
+			if (isAccelerating()) {
+				vx += ax;
+				vy += ay;
+			}
+		}
+	}
+
+	@Override
 	public void notify(Event event) {
 		for (int i = 0, len = subscribers.size(); i < len; i++) {
 			Subscriber subscriber = subscribers.get(i);
@@ -146,36 +166,6 @@ public abstract class Entity extends Node {
 				}
 			}
 		}
-	}
-
-	// Overridden methods
-	// ----------------------------------------
-
-	@Override
-	public void update(Updateable parent) {
-		super.update(parent);
-
-		input();
-
-		// Apply movement if necessary.
-		if (isMoving()) {
-			x += vx;
-			y += vy;
-		}
-
-		// Apply acceleration if necessary.
-		if (isAccelerating()) {
-			vx += ax;
-			vy += ay;
-		}
-	}
-
-	@Override
-	public void debug(Node parent, Canvas canvas) {
-		Paint paint = new Paint();
-		paint.setColor(Color.MAGENTA);
-		paint.setStyle(Paint.Style.STROKE);
-		canvas.drawRect(x, y, x2(), y2(), paint);
 	}
 
 	// Getters and setters

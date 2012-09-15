@@ -4,7 +4,6 @@ import android.view.MotionEvent;
 import org.cniska.phaser.core.GameView;
 import org.cniska.phaser.core.Updateable;
 import org.cniska.phaser.input.TouchListener;
-import org.cniska.phaser.render.Animation;
 import org.cniska.phaser.scene.GameScene;
 
 public class Player extends SpaceActor implements TouchListener {
@@ -22,28 +21,21 @@ public class Player extends SpaceActor implements TouchListener {
 	 */
 	public Player(GameView view, GameScene scene) {
 		super(view, scene);
+		name = "player";
 		missileCooldown = 500 * 1000000; // ms -> ns
 	}
 
 	protected void fire() {
 		Rocket rocket = new Rocket(view, scene);
-		rocket.position(x + (width / 2) - (rocket.getWidth() / 2), y - 15);
+		rocket.position(x + (width / 2) - 2, y - 25);
 		reloadTime = System.nanoTime();
 		missiles = false;
 	}
 
 	@Override
 	public void init() {
-		position(600, 600);
-		size(20, 20);
+		super.init();
 		loadBitmap(R.drawable.ship_01);
-
-		Animation animation = new Animation();
-		animation.addFrame(0, 0, 100);
-		animation.addFrame(20, 0, 100);
-		addAnimation("idle", animation);
-		playAnimation("idle");
-
 		explosion.loadBitmap(R.drawable.explosion_02);
 	}
 

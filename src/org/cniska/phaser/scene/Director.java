@@ -27,6 +27,7 @@ public class Director extends Node implements Renderer {
 	 */
 	public Director(GameView view) {
 		super(view);
+		name = "director";
 		scenes = new Hashtable<String, Scene>();
 	}
 

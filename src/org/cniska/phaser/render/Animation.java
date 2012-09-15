@@ -10,8 +10,8 @@ public class Animation implements Updateable {
 
 	protected int currentIndex;
 	protected int frameCount = 0;
-	protected List<Frame> frames;
 	protected long startTime, playTime, totalTime;
+	protected List<Frame> frames;
 	protected boolean playing = false;
 	protected boolean loop = true;
 

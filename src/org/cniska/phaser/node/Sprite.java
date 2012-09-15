@@ -18,6 +18,7 @@ public abstract class Sprite extends Entity implements Drawable {
 	protected Bitmap bitmap;
 	protected Animation currentAnimation;
 	protected Hashtable<String, Animation> animations;
+	protected String defaultAnimation;
 	protected int zIndex = 0;
 	protected boolean visible = true;
 
@@ -97,7 +98,7 @@ public abstract class Sprite extends Entity implements Drawable {
 
 	@Override
 	public void draw(Canvas canvas) {
-		if (bitmap != null) {
+		if (visible && bitmap != null) {
 			Rect src = new Rect(ox(), oy(), ox() + width, oy() + height);
 			Rect dst = new Rect(x, y, x2(), y2());
 			canvas.drawBitmap(bitmap, src, dst, null);
@@ -106,6 +107,10 @@ public abstract class Sprite extends Entity implements Drawable {
 
 	// Getters and setters
 	// ----------------------------------------
+
+	public void setDefaultAnimation(String defaultAnimation) {
+		this.defaultAnimation = defaultAnimation;
+	}
 
 	public int getzIndex() {
 		return zIndex;

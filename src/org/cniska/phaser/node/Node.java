@@ -13,8 +13,9 @@ public class Node extends Publisher implements Debuggable, EntityListener {
 	// Member variables
 	// ----------------------------------------
 
-	protected GameView view;
+	protected String name;
 	protected List<Node> children;
+	protected GameView view;
 	protected boolean initialized = false;
 
 	// Methods
@@ -25,6 +26,7 @@ public class Node extends Publisher implements Debuggable, EntityListener {
 	 */
 	public Node(GameView view) {
 		this.view = view;
+		name = "";
 		children = new List<Node>();
 	}
 
@@ -37,6 +39,7 @@ public class Node extends Publisher implements Debuggable, EntityListener {
 
 	/**
 	 * Adds a child node.
+	 *
 	 * @param node The node to add.
 	 */
 	public void addNode(Node node) {
@@ -45,7 +48,43 @@ public class Node extends Publisher implements Debuggable, EntityListener {
 	}
 
 	/**
+	 * Returns a child node with the given name.
+	 *
+	 * @param name The node name.
+	 * @return The node.
+	 */
+	public Node getNode(String name) {
+		for (int i = 0, len = children.size(); i < len; i++) {
+			Node node = children.get(i);
+			if (node.getName() == name) {
+				return node;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Looks up a child node recursively with the given name.
+	 *
+	 * @param name The node name.
+	 * @return The node.
+	 */
+	public Node lookup(String name) {
+		Node node = getNode(name);
+		if (node == null) {
+			for (int i = 0, len = children.size(); i < len; i++) {
+				node = children.get(i).lookup(name);
+				if (node != null) {
+					return node;
+				}
+			}
+		}
+		return null;
+	}
+
+	/**
 	 * Removes a child node.
+	 *
 	 * @param node The node to remove.
 	 */
 	public void removeNode(Node node) {
@@ -88,6 +127,14 @@ public class Node extends Publisher implements Debuggable, EntityListener {
 
 	// Getters and setters
 	// ----------------------------------------
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 
 	public GameView getView() {
 		return view;

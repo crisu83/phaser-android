@@ -15,8 +15,6 @@ public class GamePlay extends GameScene {
 	@Override
 	public void setup() {
 		alien = new Alien(view, this);
-		alien.position(600, 100);
-
 		player = new Player(view, this);
 		view.getTouchHandler().attach(player); // player wants to listen for touch events
 	}

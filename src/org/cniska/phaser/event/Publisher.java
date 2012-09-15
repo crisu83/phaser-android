@@ -45,4 +45,13 @@ public abstract class Publisher implements Updateable {
 	public void update(Updateable parent) {
 		subscribers.update(this);
 	}
+
+	/**
+	 * Notifies the listeners that the given event occurred.
+	 * Override this method to implement event notification.
+	 *
+	 * @param event The event.
+	 */
+	public void notify(Event event) {
+	}
 }

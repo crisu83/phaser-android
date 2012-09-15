@@ -26,6 +26,7 @@ public class SpriteRenderer extends Node implements Renderer {
 	 */
 	public SpriteRenderer(GameView view) {
 		super(view);
+		name = "sprite-renderer";
 		sprites = new SortedList<Sprite>(new zIndexComparator());
 	}
 
