@@ -2,7 +2,7 @@ package org.cniska.invaders;
 
 import android.content.Context;
 import org.cniska.phaser.core.GameView;
-import org.cniska.phaser.scene.Scene;
+import org.cniska.phaser.scene.World;
 
 public class Invaders extends GameView {
 
@@ -18,8 +18,8 @@ public class Invaders extends GameView {
 
 	@Override
 	public void setup() {
-		Scene gamePlay = new GamePlay(this);
-		director.add("gameplay", gamePlay);
-		director.set("gameplay");
+		World world = new SpaceWorld(this);
+		director.add("space-world", world);
+		director.set("space-world");
 	}
 }

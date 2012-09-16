@@ -8,7 +8,7 @@ public class Animation implements Updateable {
 	// Member variables
 	// ----------------------------------------
 
-	protected int currentIndex;
+	protected int currentFrame;
 	protected int frameCount = 0;
 	protected long startTime, playTime, totalTime;
 	protected List<Frame> frames;
@@ -20,6 +20,7 @@ public class Animation implements Updateable {
 
 	public Animation() {
 		frames = new List<Frame>();
+		currentFrame = -1;
 	}
 
 	/**
@@ -40,7 +41,7 @@ public class Animation implements Updateable {
 	 */
 	public void play() {
 		startTime = System.nanoTime();
-		currentIndex = 0;
+		currentFrame = 0;
 		playTime = 0L;
 		playing = true;
 	}
@@ -58,7 +59,7 @@ public class Animation implements Updateable {
 	 * @return The offset in pixels.
 	 */
 	public int ox() {
-		Frame frame = frames.get(currentIndex);
+		Frame frame = frames.get(currentFrame);
 		return frame != null ? frame.getX() : 0;
 	}
 
@@ -68,7 +69,7 @@ public class Animation implements Updateable {
 	 * @return The offset in pixels.
 	 */
 	public int oy() {
-		Frame frame = frames.get(currentIndex);
+		Frame frame = frames.get(currentFrame);
 		return frame != null ? frame.getY() : 0;
 	}
 
@@ -86,11 +87,11 @@ public class Animation implements Updateable {
 		frames.update(this);
 
 		if (playing && frameCount > 0) {
-			Frame frame = frames.get(currentIndex);
+			Frame frame = frames.get(currentFrame);
 			playTime = System.nanoTime() - startTime;
 
 			if (playTime > frame.getEndTime() && playTime < totalTime) {
-				currentIndex++;
+				currentFrame++;
 			}
 
 			if (loop && hasEnded()) {

@@ -8,11 +8,11 @@ import org.cniska.phaser.node.EntityListener;
 import org.cniska.phaser.node.Node;
 import org.cniska.phaser.util.List;
 
-public class World extends Node implements EntityListener {
+public class Physics extends Node implements EntityListener {
 
 	protected List<Actor> actors;
 
-	public World(GameView view) {
+	public Physics(GameView view) {
 		super(view);
 		actors = new List<Actor>();
 	}

@@ -3,7 +3,7 @@ package org.cniska.invaders;
 import org.cniska.phaser.core.GameView;
 import org.cniska.phaser.event.Event;
 import org.cniska.phaser.node.Actor;
-import org.cniska.phaser.scene.GameScene;
+import org.cniska.phaser.scene.World;
 
 public abstract class SpaceActor extends Actor {
 
@@ -13,11 +13,11 @@ public abstract class SpaceActor extends Actor {
 	 * Creates a new actor.
 	 *
 	 * @param view The game view.
-	 * @param scene The parent scene.
+	 * @param world The parent world.
 	 */
-	protected SpaceActor(GameView view, GameScene scene) {
-		super(view, scene);
-		explosion = new Explosion(view, scene);
+	protected SpaceActor(GameView view, World world) {
+		super(view, world);
+		explosion = new Explosion(view, world);
 	}
 
 	@Override

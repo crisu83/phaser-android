@@ -8,7 +8,7 @@ import org.cniska.phaser.core.GameData;
 import org.cniska.phaser.core.GameView;
 import org.cniska.phaser.event.Event;
 import org.cniska.phaser.render.Animation;
-import org.cniska.phaser.scene.GameScene;
+import org.cniska.phaser.scene.World;
 
 import java.util.HashMap;
 
@@ -17,7 +17,7 @@ public abstract class Actor extends Sprite implements Collidable {
 	// Member variables
 	// ----------------------------------------
 
-	protected GameScene scene;
+	protected World world;
 
 	// Methods
 	// ----------------------------------------
@@ -26,15 +26,14 @@ public abstract class Actor extends Sprite implements Collidable {
 	 * Creates a new actor.
 	 *
 	 * @param view The game view.
-	 * @param scene The parent scene.
+	 * @param world The parent world.
 	 */
-	protected Actor(GameView view, GameScene scene) {
+	protected Actor(GameView view, World world) {
 		super(view);
-		this.scene = scene;
-
-		scene.addNode(this);
-		scene.getWorld().addActor(this);
-		scene.getRenderer().addSprite(this);
+		this.world = world;
+		world.addNode(this);
+		world.getPhysics().addActor(this);
+		world.getRenderer().addSprite(this);
 	}
 
 	/**
@@ -64,8 +63,8 @@ public abstract class Actor extends Sprite implements Collidable {
 	public void init() {
 		super.init();
 
-		if (name != null) {
-			GameData.ActorData data = view.getData().getActor(name);
+		if (id > 0) {
+			GameData.ActorData data = view.getData().getActor(id);
 
 			if (data != null) {
 				if (data.width > 0) {
@@ -74,14 +73,6 @@ public abstract class Actor extends Sprite implements Collidable {
 
 				if (data.height > 0) {
 					height = data.height;
-				}
-
-				if (data.x != 0) {
-					x = data.x;
-				}
-
-				if (data.y != 0) {
-					y = data.y;
 				}
 
 				if (data.vx != 0) {
@@ -96,7 +87,7 @@ public abstract class Actor extends Sprite implements Collidable {
 					ax = data.ax;
 				}
 
-				if (data.y != 0) {
+				if (data.ay != 0) {
 					ay = data.ay;
 				}
 

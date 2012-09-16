@@ -15,7 +15,7 @@ abstract public class Scene extends Node {
 	// ----------------------------------------
 
 	/**
-	 * Creates a new scene.
+	 * Creates a new world.
 	 *
 	 * @param view The game view.
 	 */
@@ -29,7 +29,7 @@ abstract public class Scene extends Node {
 	// ----------------------------------------
 
 	/**
-	 * Setups the scene.
+	 * Setups the world.
 	 */
 	public abstract void setup();
 

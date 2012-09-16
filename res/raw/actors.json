@@ -1,125 +1,139 @@
 {
-	"player": {
-		"width": 20,
-		"height": 20,
-		"x": 600,
-		"y": 600,
-		"vx": 0,
-		"vy": 0,
-		"ax": 0,
-        "ay": 0,
-		"zIndex": 10,
-		"defaultAnimation": "idle",
-		"animations": {
-			"idle": {
-				"loop": true,
-				"frames": [
-					[0, 0, 100],
-					[20, 0, 100]
-				]
-			},
-			"tiltLeft": {
-				"loop": false,
-				"frames": [
-					[40, 0, 50],
-					[60, 0, 50]
-				]
-			},
-			"tiltRight": {
-				"loop": false,
-				"frames": [
-					[80, 0, 50],
-					[100, 0, 50]
-				]
+	"actors": [
+		{
+			"id": 1,
+			"name": "player",
+			"width": 20,
+			"height": 20,
+			"vx": 0,
+			"vy": 0,
+			"ax": 0,
+			"ay": 0,
+			"zIndex": 10,
+			"defaultAnimation": "idle",
+			"animations": {
+				"idle": {
+					"loop": true,
+					"frames": [
+						[0, 0, 100],
+						[20, 0, 100]
+					]
+				},
+				"tiltLeft": {
+					"loop": false,
+					"frames": [
+						[40, 0, 50],
+						[60, 0, 50]
+					]
+				},
+				"tiltRight": {
+					"loop": false,
+					"frames": [
+						[80, 0, 50],
+						[100, 0, 50]
+					]
+				}
 			}
-		}
-	},
-	"alien": {
-		"width": 20,
-		"height": 20,
-		"x": 600,
-		"y": 100,
-		"vx": 0,
-		"vy": 0,
-		"ax": 0,
-        "ay": 0,
-		"zIndex": 10,
-		"defaultAnimation": "idle",
-		"animations": {
-			"idle": {
-				"loop": true,
-				"frames": [
-					[0, 0, 100],
-					[20, 0, 100]
-				]
+		},
+		{
+			"id": 2,
+			"name": "alien",
+			"width": 20,
+			"height": 20,
+			"vx": 0,
+			"vy": 0,
+			"ax": 0,
+			"ay": 0,
+			"zIndex": 10,
+			"defaultAnimation": "idle",
+			"animations": {
+				"idle": {
+					"loop": true,
+					"frames": [
+						[0, 0, 100],
+						[20, 0, 100]
+					]
+				}
 			}
-		}
-	},
-	"rocket": {
-		"width": 5,
-		"height": 20,
-		"x": 0,
-		"y": 0,
-		"vx": 0,
-		"vy": -5,
-		"ax": 0,
-        "ay": -0.1,
-        "zIndex": 20,
-		"defaultAnimation": "idle",
-		"animations": {
-			"idle": {
-				"loop": true,
-				"frames": [
-					[0, 0, 100],
-					[5, 0, 100]
-				]
+		},
+		{
+			"id": 3,
+			"name": "rocket",
+			"width": 5,
+			"height": 20,
+			"vx": 0,
+			"vy": -5,
+			"ax": 0,
+			"ay": -0.5,
+			"zIndex": 20,
+			"defaultAnimation": "idle",
+			"animations": {
+				"idle": {
+					"loop": true,
+					"frames": [
+						[0, 0, 100],
+						[5, 0, 100]
+					]
+				}
 			}
-		}
-	},
-	"torpedo": {
-		"width": 5,
-		"height": 20,
-		"x": 0,
-    	"y": 0,
-		"vx": 0,
-		"vy": 5,
-		"ax": 0,
-		"ay": 0.1,
-		"zIndex": 20,
-		"defaultAnimation": "idle",
-		"animations": {
-			"idle": {
-				"loop": true,
-				"frames": [
-					[0, 0, 100],
-					[5, 0, 100]
-				]
+		},
+		{
+			"id": 4,
+			"name": "torpedo",
+			"width": 5,
+			"height": 20,
+			"vx": 0,
+			"vy": 5,
+			"ax": 0,
+			"ay": 0.1,
+			"zIndex": 20,
+			"defaultAnimation": "idle",
+			"animations": {
+				"idle": {
+					"loop": true,
+					"frames": [
+						[0, 0, 100],
+						[5, 0, 100]
+					]
+				}
 			}
-		}
-	},
-	"explosion": {
-		"width": 20,
-		"height": 20,
-		"x": 0,
-		"y": 0,
-		"vx": 0,
-        "vy": 0,
-        "ax": 0,
-        "ay": 0,
-		"zIndex": 30,
-		"defaultAnimation": "",
-		"animations": {
-			"explode": {
-				"loop": false,
-				"frames": [
-					[0, 0, 50],
-					[20, 0, 50],
-					[40, 0, 50],
-					[60, 0, 50],
-					[80, 0, 50],
-					[100, 0, 50]
-				]
+		},
+		{
+			"id": 5,
+			"name": "explosion",
+			"width": 20,
+			"height": 20,
+			"vx": 0,
+			"vy": 0,
+			"ax": 0,
+			"ay": 0,
+			"zIndex": 30,
+			"defaultAnimation": "",
+			"animations": {
+				"explode": {
+					"loop": false,
+					"frames": [
+						[0, 0, 50],
+						[20, 0, 50],
+						[40, 0, 50],
+						[60, 0, 50],
+						[80, 0, 50],
+						[100, 0, 50]
+					]
+				}
 			}
+		},
+		{
+			"id": 6,
+			"name": "background",
+			"width": 1195,
+			"height": 718,
+			"vx": 0,
+			"vy": 0,
+			"ax": 0,
+			"ay": 0,
+			"zIndex": 5,
+			"defaultAnimation": ""
 		}
-	}
+	]
 }

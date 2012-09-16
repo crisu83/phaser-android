@@ -13,6 +13,7 @@ public class Node extends Publisher implements Debuggable, EntityListener {
 	// Member variables
 	// ----------------------------------------
 
+	protected int id;
 	protected String name;
 	protected List<Node> children;
 	protected GameView view;
@@ -127,6 +128,14 @@ public class Node extends Publisher implements Debuggable, EntityListener {
 
 	// Getters and setters
 	// ----------------------------------------
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
 
 	public String getName() {
 		return name;

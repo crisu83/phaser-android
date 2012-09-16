@@ -4,7 +4,7 @@ import android.view.MotionEvent;
 import org.cniska.phaser.core.GameView;
 import org.cniska.phaser.core.Updateable;
 import org.cniska.phaser.input.TouchListener;
-import org.cniska.phaser.scene.GameScene;
+import org.cniska.phaser.scene.World;
 
 public class Player extends SpaceActor implements TouchListener {
 
@@ -17,16 +17,17 @@ public class Player extends SpaceActor implements TouchListener {
 	 * Creates a new game object.
 	 *
 	 * @param view The game view.
-	 * @param scene The parent scene.
+	 * @param world The parent world.
 	 */
-	public Player(GameView view, GameScene scene) {
-		super(view, scene);
+	public Player(GameView view, World world) {
+		super(view, world);
+		id = 1;
 		name = "player";
 		missileCooldown = 500 * 1000000; // ms -> ns
 	}
 
 	protected void fire() {
-		Rocket rocket = new Rocket(view, scene);
+		Rocket rocket = new Rocket(view, world);
 		rocket.position(x + (width / 2) - 2, y - 25);
 		reloadTime = System.nanoTime();
 		missiles = false;
@@ -35,6 +36,7 @@ public class Player extends SpaceActor implements TouchListener {
 	@Override
 	public void init() {
 		super.init();
+		position(600, 600);
 		loadBitmap(R.drawable.ship_01);
 		explosion.loadBitmap(R.drawable.explosion_02);
 	}

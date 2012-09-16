@@ -4,7 +4,7 @@ import org.cniska.phaser.core.GameView;
 import org.cniska.phaser.node.Actor;
 import org.cniska.phaser.scene.World;
 
-public class Rocket extends SpaceActor {
+public class Torpedo extends SpaceActor {
 
 	/**
 	 * Creates a new actor.
@@ -12,21 +12,21 @@ public class Rocket extends SpaceActor {
 	 * @param view The game view.
 	 * @param world The parent world.
 	 */
-	public Rocket(GameView view, World world) {
+	public Torpedo(GameView view, World world) {
 		super(view, world);
-		id = 3;
-		name = "rocket";
+		id = 4;
+		name = "torpedo";
 	}
 
 	@Override
 	public void init() {
 		super.init();
-		loadBitmap(R.drawable.missile_01);
-		explosion.loadBitmap(R.drawable.explosion_01);
+		loadBitmap(R.drawable.missile_02);
+		explosion.loadBitmap(R.drawable.explosion_03);
 	}
 
 	@Override
 	public boolean collides(Actor other) {
-		return other instanceof Alien && intersects(other);
+		return other instanceof Player && intersects(other);
 	}
 }

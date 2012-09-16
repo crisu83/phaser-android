@@ -7,7 +7,7 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import org.cniska.phaser.debug.Logger;
-import org.cniska.phaser.debug.ui.MonitorPanel;
+import org.cniska.phaser.debug.MonitorPanel;
 import org.cniska.phaser.input.TouchHandler;
 import org.cniska.phaser.node.Node;
 import org.cniska.phaser.render.ImageLoader;

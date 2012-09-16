@@ -21,7 +21,7 @@ public class Director extends Node implements Renderer {
 	// ----------------------------------------
 
 	/**
-	 * Creates a new scene manager.
+	 * Creates a new director.
 	 *
 	 * @param view The game view.
 	 */
@@ -42,7 +42,7 @@ public class Director extends Node implements Renderer {
 	}
 
 	/**
-	 * Sets the currentScene scene.
+	 * Sets the current scene.
 	 *
 	 * @param name The scene name.
 	 */
