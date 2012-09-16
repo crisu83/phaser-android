@@ -9,7 +9,6 @@ public class Explosion extends Actor {
 
 	protected int lifetime;
 	protected long startTime;
-	protected boolean explode;
 
 	/**
 	 * Creates a new actor.

@@ -1,8 +1,10 @@
 package org.cniska.phaser.scene;
 
+import android.graphics.Canvas;
 import org.cniska.phaser.collision.Physics;
 import org.cniska.phaser.core.GameView;
 import org.cniska.phaser.core.Updateable;
+import org.cniska.phaser.debug.Debuggable;
 import org.cniska.phaser.node.Actor;
 import org.cniska.phaser.util.List;
 
@@ -45,7 +47,7 @@ public abstract class World extends Scene {
 	protected void loadLevel(int index) {
 		if (index > (levels.size()) - 1) {
 			Level level = createLevel(index + 1);
-			
+
 			if (level != null) {
 				levels.add(level);
 			}
@@ -100,6 +102,12 @@ public abstract class World extends Scene {
 		if (currentLevel != null) {
 			currentLevel.update(this);
 		}
+	}
+
+	@Override
+	public void debug(Debuggable parent, Canvas canvas) {
+		super.debug(parent, canvas);
+		physics.debug(this, canvas);
 	}
 
 	// Getters and setters

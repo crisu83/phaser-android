@@ -3,19 +3,18 @@ package org.cniska.phaser.node;
 import android.graphics.Canvas;
 import org.cniska.phaser.core.GameView;
 import org.cniska.phaser.core.Updateable;
-import org.cniska.phaser.debug.Debuggable;
 import org.cniska.phaser.event.Event;
 import org.cniska.phaser.event.Publisher;
 import org.cniska.phaser.util.List;
 
-public class Node extends Publisher implements Debuggable, EntityListener {
+public class Debuggable extends Publisher implements org.cniska.phaser.debug.Debuggable, EntityListener {
 
 	// Member variables
 	// ----------------------------------------
 
 	protected int id;
 	protected String name;
-	protected List<Node> children;
+	protected List<Debuggable> children;
 	protected GameView view;
 	protected boolean initialized = false;
 
@@ -25,10 +24,10 @@ public class Node extends Publisher implements Debuggable, EntityListener {
 	/**
 	 * Creates a new node.
 	 */
-	public Node(GameView view) {
+	public Debuggable(GameView view) {
 		this.view = view;
 		name = "";
-		children = new List<Node>();
+		children = new List<Debuggable>();
 	}
 
 	/**
@@ -43,7 +42,7 @@ public class Node extends Publisher implements Debuggable, EntityListener {
 	 *
 	 * @param node The node to add.
 	 */
-	public void addNode(Node node) {
+	public void addNode(Debuggable node) {
 		node.attach(this);
 		children.add(node);
 	}
@@ -54,9 +53,9 @@ public class Node extends Publisher implements Debuggable, EntityListener {
 	 * @param name The node name.
 	 * @return The node.
 	 */
-	public Node getNode(String name) {
+	public Debuggable getNode(String name) {
 		for (int i = 0, len = children.size(); i < len; i++) {
-			Node node = children.get(i);
+			Debuggable node = children.get(i);
 			if (node.getName() == name) {
 				return node;
 			}
@@ -70,8 +69,8 @@ public class Node extends Publisher implements Debuggable, EntityListener {
 	 * @param name The node name.
 	 * @return The node.
 	 */
-	public Node lookup(String name) {
-		Node node = getNode(name);
+	public Debuggable lookup(String name) {
+		Debuggable node = getNode(name);
 		if (node == null) {
 			for (int i = 0, len = children.size(); i < len; i++) {
 				node = children.get(i).lookup(name);
@@ -88,7 +87,7 @@ public class Node extends Publisher implements Debuggable, EntityListener {
 	 *
 	 * @param node The node to remove.
 	 */
-	public void removeNode(Node node) {
+	public void removeNode(Debuggable node) {
 		node.detach(this);
 		children.remove(node);
 	}
@@ -116,7 +115,7 @@ public class Node extends Publisher implements Debuggable, EntityListener {
 
 	@Override
 	public void onEntityRemove(Event event) {
-		removeNode((Node) event.getSource());
+		removeNode((Debuggable) event.getSource());
 	}
 
 	@Override

@@ -6,13 +6,15 @@ import android.graphics.Paint;
 import org.cniska.phaser.collision.Collidable;
 import org.cniska.phaser.core.GameData;
 import org.cniska.phaser.core.GameView;
+import org.cniska.phaser.debug.Debuggable;
 import org.cniska.phaser.event.Event;
 import org.cniska.phaser.render.Animation;
 import org.cniska.phaser.scene.World;
+import org.cniska.phaser.util.QuadTreeable;
 
 import java.util.HashMap;
 
-public abstract class Actor extends Sprite implements Collidable {
+public abstract class Actor extends Sprite implements Collidable, QuadTreeable {
 
 	// Member variables
 	// ----------------------------------------
@@ -123,7 +125,7 @@ public abstract class Actor extends Sprite implements Collidable {
 	}
 
 	@Override
-	public void debug(Node parent, Canvas canvas) {
+	public void debug(Debuggable parent, Canvas canvas) {
 		if (visible) {
 			Paint paint = new Paint();
 			paint.setColor(Color.MAGENTA);

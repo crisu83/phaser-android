@@ -1,6 +1,7 @@
 package org.cniska.invaders;
 
 import org.cniska.phaser.core.GameView;
+import org.cniska.phaser.core.Updateable;
 import org.cniska.phaser.node.Actor;
 import org.cniska.phaser.scene.World;
 
@@ -23,6 +24,15 @@ public class Rocket extends SpaceActor {
 		super.init();
 		loadBitmap(R.drawable.missile_01);
 		explosion.loadBitmap(R.drawable.explosion_01);
+	}
+
+	@Override
+	public void update(Updateable parent) {
+		super.update(parent);
+
+		if (x < -50) {
+			remove();
+		}
 	}
 
 	@Override

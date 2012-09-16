@@ -3,6 +3,7 @@ package org.cniska.phaser.scene;
 import android.graphics.Canvas;
 import org.cniska.phaser.core.GameView;
 import org.cniska.phaser.core.Updateable;
+import org.cniska.phaser.debug.Debuggable;
 import org.cniska.phaser.node.Node;
 import org.cniska.phaser.render.Renderer;
 import org.cniska.phaser.render.SpriteRenderer;
@@ -74,7 +75,7 @@ public class Director extends Node implements Renderer {
 	}
 
 	@Override
-	public void debug(Node parent, Canvas canvas) {
+	public void debug(Debuggable parent, Canvas canvas) {
 		super.debug(parent, canvas);
 
 		if (currentScene != null) {

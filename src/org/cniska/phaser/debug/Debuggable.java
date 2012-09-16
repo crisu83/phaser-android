@@ -1,15 +1,14 @@
 package org.cniska.phaser.debug;
 
 import android.graphics.Canvas;
-import org.cniska.phaser.node.Node;
 
 public interface Debuggable {
 
 	/**
 	 * Debugs the object.
 	 *
-	 * @param parent The parent node.
+	 * @param parent The parent.
 	 * @param canvas The canvas context.
 	 */
-	public void debug(Node parent, Canvas canvas);
+	public void debug(Debuggable parent, Canvas canvas);
 }

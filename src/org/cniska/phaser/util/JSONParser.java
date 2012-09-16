@@ -9,13 +9,34 @@ import java.io.*;
 
 public class JSONParser {
 
+	// Static variables
+	// ----------------------------------------
+
 	private static final String ENCODING = "iso-8859-1";
+
+	// Member variables
+	// ----------------------------------------
+
 	protected View view;
 
+	// Methods
+	// ----------------------------------------
+
+	/**
+	 * Creates a new parser.
+	 *
+	 * @param view The parent view.
+	 */
 	public JSONParser(View view) {
 		this.view = view;
 	}
 
+	/**
+	 * Parses the JSON file with the given resource id.
+	 *
+	 * @param resourceId The resource identifier.
+	 * @return The JSON object.
+	 */
 	public JSONObject parse(int resourceId) {
 		String jsonString = null;
 		JSONObject result = null;
