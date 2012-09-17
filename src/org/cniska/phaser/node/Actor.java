@@ -10,11 +10,12 @@ import org.cniska.phaser.debug.Debuggable;
 import org.cniska.phaser.event.Event;
 import org.cniska.phaser.render.Animation;
 import org.cniska.phaser.scene.World;
+import org.cniska.phaser.util.Poolable;
 import org.cniska.phaser.util.QuadTreeable;
 
 import java.util.HashMap;
 
-public abstract class Actor extends Sprite implements Collidable, QuadTreeable {
+public abstract class Actor extends Sprite implements Collidable, QuadTreeable, Poolable {
 
 	// Member variables
 	// ----------------------------------------
@@ -137,4 +138,8 @@ public abstract class Actor extends Sprite implements Collidable, QuadTreeable {
 	@Override
 	public void onCollision(Event event) {
 	}
+
+    @Override
+    public void reset() {
+    }
 }

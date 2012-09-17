@@ -25,6 +25,7 @@ public class ImageLoader {
 
 	/**
 	 * Loads the bitmap with the given resource id.
+     *
 	 * @param resourceId The resource id.
 	 * @return The bitmap.
 	 */

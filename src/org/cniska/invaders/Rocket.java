@@ -2,6 +2,7 @@ package org.cniska.invaders;
 
 import org.cniska.phaser.core.GameView;
 import org.cniska.phaser.core.Updateable;
+import org.cniska.phaser.event.Event;
 import org.cniska.phaser.node.Actor;
 import org.cniska.phaser.scene.World;
 
@@ -39,4 +40,15 @@ public class Rocket extends SpaceActor {
 	public boolean collides(Actor other) {
 		return other instanceof Alien && intersects(other);
 	}
+
+    @Override
+    public void reset() {
+        super.reset();
+        x = 0;
+        y = 0;
+        ax = 0;
+        ay = 0;
+        vx = 0;
+        vy = 0;
+    }
 }

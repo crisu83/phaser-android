@@ -2,6 +2,10 @@ package org.cniska.invaders;
 
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Window;
@@ -31,8 +35,8 @@ public class Main extends Activity {
 
 		// Calculate the period and create the game.
 		long period = (long) 1000.0 / TARGET_FPS;
-		GameView view = new Invaders(period * 1000000L, this);
-		view.setDebug(true);
+		Invaders view = new Invaders(period * 1000000L, this);
+		//view.setDebug(true);
         setContentView(view);
     }
 }

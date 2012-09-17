@@ -1,5 +1,6 @@
 package org.cniska.invaders;
 
+import android.hardware.SensorManager;
 import android.view.MotionEvent;
 import org.cniska.phaser.core.GameView;
 import org.cniska.phaser.core.Updateable;
@@ -23,11 +24,11 @@ public class Player extends SpaceActor implements TouchListener {
 		super(view, world);
 		id = 1;
 		name = "player";
-		missileCooldown = 500 * 1000000; // ms -> ns
+		missileCooldown = 1000 * 1000000; // ms -> ns
 	}
 
 	protected void fire() {
-		Rocket rocket = new Rocket(view, world);
+		Rocket rocket = (Rocket) world.createActor(3);
 		rocket.position(x + (width / 2) - 2, y - 25);
 		reloadTime = System.nanoTime();
 		missiles = false;
@@ -36,19 +37,22 @@ public class Player extends SpaceActor implements TouchListener {
 	@Override
 	public void init() {
 		super.init();
-		position(600, 600);
 		loadBitmap(R.drawable.ship_01);
 		explosion.loadBitmap(R.drawable.explosion_02);
 	}
 
 	@Override
 	public void input() {
-		if (missiles && touch != null) {
-			fire();
-			touch = null;
+		if (touch != null) {
+            x = (int) touch.getX() - 10;
+
+            if (missiles) {
+                fire();
+            }
+
+            touch = null;
 		}
 	}
-
 
 	@Override
 	public void update(Updateable parent) {
@@ -61,6 +65,6 @@ public class Player extends SpaceActor implements TouchListener {
 
 	@Override
 	public void onTouch(MotionEvent event) {
-		this.touch = event;
+	    this.touch = event;
 	}
 }

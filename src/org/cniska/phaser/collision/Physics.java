@@ -22,7 +22,7 @@ public class Physics extends Node implements EntityListener {
 	public Physics(GameView view) {
 		super(view);
 		actors = new List<Actor>();
-		quadTree = new QuadTree(0, 0, 1195, 718, 2, 4);
+		quadTree = new QuadTree(0, 0, 1220, 718, 2, 4);
 	}
 
 	public void addActor(Actor entity) {
