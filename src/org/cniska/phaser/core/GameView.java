@@ -26,7 +26,6 @@ public abstract class GameView extends SurfaceView implements SurfaceHolder.Call
 	private boolean debug = false;
 
 	protected Node gameRoot;
-	protected GameData data;
 	protected ImageLoader imageLoader;
 	protected Director director;
 	protected TouchHandler touchHandler;
@@ -68,9 +67,6 @@ public abstract class GameView extends SurfaceView implements SurfaceHolder.Call
 
 		monitor = new MonitorPanel(this);
 		gameRoot.addNode(monitor);
-
-		data = new GameData(this);
-		data.load();
 	}
 
     /**
@@ -135,6 +131,13 @@ public abstract class GameView extends SurfaceView implements SurfaceHolder.Call
 	 */
 	public abstract void setup();
 
+	/**
+	 * Returns the game data.
+	 *
+	 * @return The data.
+	 */
+	public abstract GameData getData();
+
 	// Interface methods
 	// ----------------------------------------
 
@@ -166,10 +169,6 @@ public abstract class GameView extends SurfaceView implements SurfaceHolder.Call
 
 	public Director getDirector() {
 		return director;
-	}
-
-	public GameData getData() {
-		return data;
 	}
 
 	public ImageLoader getImageLoader() {

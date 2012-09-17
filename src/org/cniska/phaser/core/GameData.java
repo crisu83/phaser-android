@@ -19,23 +19,23 @@ public class GameData {
 	private static final int RESOURCE_LEVELS = R.raw.levels;
 	private static final int RESOURCE_ACTORS = R.raw.actors;
 
-	private static final String TAG_ID = "id";
-	private static final String TAG_NAME = "name";
-	private static final String TAG_LEVELS = "levels";
-	private static final String TAG_ACTORS = "actors";
-	private static final String TAG_WIDTH = "width";
-	private static final String TAG_HEIGHT = "height";
-	private static final String TAG_X = "x";
-	private static final String TAG_Y = "y";
-	private static final String TAG_VX = "vx";
-	private static final String TAG_VY = "vy";
-	private static final String TAG_AX = "ax";
-	private static final String TAG_AY = "ay";
-	private static final String TAG_Z_INDEX = "zIndex";
-	private static final String TAG_DEFAULT_ANIMATION = "defaultAnimation";
-	private static final String TAG_ANIMATIONS = "animations";
-	private static final String TAG_FRAMES = "frames";
-	private static final String TAG_LOOP = "loop";
+	protected static final String TAG_ID = "id";
+	protected static final String TAG_NAME = "name";
+	protected static final String TAG_LEVELS = "levels";
+	protected static final String TAG_ACTORS = "actors";
+	protected static final String TAG_WIDTH = "width";
+	protected static final String TAG_HEIGHT = "height";
+	protected static final String TAG_X = "x";
+	protected static final String TAG_Y = "y";
+	protected static final String TAG_VX = "vx";
+	protected static final String TAG_VY = "vy";
+	protected static final String TAG_AX = "ax";
+	protected static final String TAG_AY = "ay";
+	protected static final String TAG_Z_INDEX = "zIndex";
+	protected static final String TAG_DEFAULT_ANIMATION = "defaultAnimation";
+	protected static final String TAG_ANIMATIONS = "animations";
+	protected static final String TAG_FRAMES = "frames";
+	protected static final String TAG_LOOP = "loop";
 
 	// Member variables
 	// ----------------------------------------
@@ -100,25 +100,20 @@ public class GameData {
 
 				for (int i = 0, len = levels.length(); i < len; i++) {
 					JSONObject level = (JSONObject) levels.get(i);
-					LevelData levelDataItem = new LevelData();
-					levelDataItem.id = level.getInt(TAG_ID);
-					levelDataItem.name = level.getString(TAG_NAME);
+					LevelData levelData = parseLevelData(level);
 
 					if (level.has(TAG_ACTORS)) {
-						levelDataItem.actors = new ArrayList<ActorLevelData>();
+						levelData.actors = new ArrayList<LevelActorData>();
 						JSONArray actors = level.getJSONArray(TAG_ACTORS);
 
 						for (int j = 0, len2 = actors.length(); j < len2; j++) {
-							JSONObject actorLevelItem = actors.getJSONObject(j);
-							ActorLevelData actorLevelData = new ActorLevelData();
-							actorLevelData.id = actorLevelItem.getInt(TAG_ID);
-							actorLevelData.x = actorLevelItem.getInt(TAG_X);
-							actorLevelData.y = actorLevelItem.getInt(TAG_Y);
-							levelDataItem.actors.add(actorLevelData);
+							JSONObject actor = actors.getJSONObject(j);
+							LevelActorData actorData = parseActorLevelData(actor);
+							levelData.actors.add(actorData);
 						}
 					}
 
-					levelData.put(levelDataItem.id, levelDataItem);
+					this.levelData.put(levelData.id, levelData);
 				}
 
 			} catch (JSONException e) {
@@ -127,6 +122,35 @@ public class GameData {
 		} else {
 			Logger.error(getClass().getCanonicalName(), "Failed to load level data.");
 		}
+	}
+
+	/**
+	 * Parses level data.
+	 *
+	 * @param level The level data (as JSON).
+	 * @return The data.
+	 * @throws JSONException
+	 */
+	protected LevelData parseLevelData(JSONObject level) throws JSONException {
+		LevelData data = new LevelData();
+		data.id = level.getInt(TAG_ID);
+		data.name = level.getString(TAG_NAME);
+		return data;
+	}
+
+	/**
+	 * Parses level actor data.
+	 *
+	 * @param actor The actor data (as JSON).
+	 * @return The data.
+	 * @throws JSONException
+	 */
+	protected LevelActorData parseActorLevelData(JSONObject actor) throws JSONException {
+		LevelActorData data = new LevelActorData();
+		data.id = actor.getInt(TAG_ID);
+		data.x = actor.getInt(TAG_X);
+		data.y = actor.getInt(TAG_Y);
+		return data;
 	}
 
 	/**
@@ -141,18 +165,7 @@ public class GameData {
 
 				for (int i = 0, len = actors.length(); i < len; i++) {
 					JSONObject actor = (JSONObject) actors.get(i);
-
-					ActorData actorDataItem = new ActorData();
-					actorDataItem.id = actor.getInt(TAG_ID);
-					actorDataItem.name = actor.getString(TAG_NAME);
-					actorDataItem.vx = (float) actor.getDouble(TAG_VX);
-					actorDataItem.vy = (float) actor.getDouble(TAG_VY);
-					actorDataItem.ax = (float) actor.getDouble(TAG_AX);
-					actorDataItem.ay = (float) actor.getDouble(TAG_AY);
-					actorDataItem.width = actor.getInt(TAG_WIDTH);
-					actorDataItem.height = actor.getInt(TAG_HEIGHT);
-					actorDataItem.zIndex = actor.getInt(TAG_Z_INDEX);
-					actorDataItem.defaultAnimation = actor.getString(TAG_DEFAULT_ANIMATION);
+					ActorData actorDataItem = parseActorData(actor);
 
 					if (actor.has(TAG_ANIMATIONS)) {
 						actorDataItem.animations = new HashMap<String, AnimationData>();
@@ -162,20 +175,15 @@ public class GameData {
 						while (animationKeys.hasNext()) {
 							String animationKey = (String) animationKeys.next();
 							JSONObject animation = (JSONObject) animations.get(animationKey);
-
-							AnimationData animationData = new AnimationData();
-							animationData.loop = animation.getBoolean(TAG_LOOP);
+							AnimationData animationData = parseAnimationData(animation);
 
 							if (animation.has(TAG_FRAMES)) {
-								animationData.frames = new ArrayList<FrameData>();
+								animationData.frames = new ArrayList<AnimationFrameData>();
 								JSONArray frames = (JSONArray) animation.get(TAG_FRAMES);
 
 								for (int j = 0, len2 = frames.length(); j < len2; j++) {
 									JSONArray frame = frames.getJSONArray(j);
-									FrameData frameData = new FrameData();
-									frameData.x = frame.getInt(0);
-									frameData.y = frame.getInt(1);
-									frameData.endTime = frame.getInt(2);
+									AnimationFrameData frameData = parseFrameData(frame);
 									animationData.frames.add(frameData);
 								}
 							}
@@ -195,6 +203,56 @@ public class GameData {
 	}
 
 	/**
+	 * Parses actor data.
+	 *
+	 * @param actor The actor data (as JSON).
+	 * @return The data.
+	 * @throws JSONException
+	 */
+	protected ActorData parseActorData(JSONObject actor) throws JSONException {
+		ActorData data = new ActorData();
+		data.id = actor.getInt(TAG_ID);
+		data.name = actor.getString(TAG_NAME);
+		data.vx = (float) actor.getDouble(TAG_VX);
+		data.vy = (float) actor.getDouble(TAG_VY);
+		data.ax = (float) actor.getDouble(TAG_AX);
+		data.ay = (float) actor.getDouble(TAG_AY);
+		data.width = actor.getInt(TAG_WIDTH);
+		data.height = actor.getInt(TAG_HEIGHT);
+		data.zIndex = actor.getInt(TAG_Z_INDEX);
+		data.defaultAnimation = actor.getString(TAG_DEFAULT_ANIMATION);
+		return data;
+	}
+
+	/**
+	 * Parses animation data.
+	 *
+	 * @param animation The animation data (as JSON).
+	 * @return The data.
+	 * @throws JSONException
+	 */
+	protected AnimationData parseAnimationData(JSONObject animation) throws JSONException {
+		AnimationData data = new AnimationData();
+		data.loop = animation.getBoolean(TAG_LOOP);
+		return data;
+	}
+
+	/**
+	 * Parses animation frame data.
+	 *
+	 * @param frame The frame data (as JSON).
+	 * @return The data.
+	 * @throws JSONException
+	 */
+	protected AnimationFrameData parseFrameData(JSONArray frame) throws JSONException {
+		AnimationFrameData data = new AnimationFrameData();
+		data.x = frame.getInt(0);
+		data.y = frame.getInt(1);
+		data.endTime = frame.getInt(2);
+		return data;
+	}
+
+	/**
 	 * Loads the JSON object for the given resource.
 	 *
 	 * @param resourceId The resource id.
@@ -210,10 +268,10 @@ public class GameData {
 	public class LevelData {
 		public int id;
 		public String name;
-		public ArrayList<ActorLevelData> actors;
+		public ArrayList<LevelActorData> actors;
 	}
 
-	public class ActorLevelData {
+	public class LevelActorData {
 		public int id;
 		public int x, y;
 	}
@@ -231,10 +289,10 @@ public class GameData {
 
 	public class AnimationData {
 		public boolean loop;
-		public ArrayList<FrameData> frames;
+		public ArrayList<AnimationFrameData> frames;
 	}
 
-	public class FrameData {
+	public class AnimationFrameData {
 		public int x;
 		public int y;
 		public int endTime;

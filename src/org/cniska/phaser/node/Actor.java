@@ -8,19 +8,20 @@ import org.cniska.phaser.core.GameData;
 import org.cniska.phaser.core.GameView;
 import org.cniska.phaser.debug.Debuggable;
 import org.cniska.phaser.event.Event;
+import org.cniska.phaser.event.Subscriber;
 import org.cniska.phaser.render.Animation;
 import org.cniska.phaser.scene.World;
-import org.cniska.phaser.util.Poolable;
 import org.cniska.phaser.util.QuadTreeable;
 
 import java.util.HashMap;
 
-public abstract class Actor extends Sprite implements Collidable, QuadTreeable, Poolable {
+public abstract class Actor extends Sprite implements Collidable, QuadTreeable {
 
 	// Member variables
 	// ----------------------------------------
 
 	protected World world;
+	protected boolean dead;
 
 	// Methods
 	// ----------------------------------------
@@ -57,6 +58,14 @@ public abstract class Actor extends Sprite implements Collidable, QuadTreeable, 
 	public void collide(Actor other) {
 		Event event = new Event("actor:collide", this);
 		other.onCollision(event);
+	}
+
+	/**
+	 * Kills the actor.
+	 */
+	public void die() {
+		notify(new Event("actor:die", this));
+		remove();
 	}
 
 	// Overridden methods
@@ -108,7 +117,7 @@ public abstract class Actor extends Sprite implements Collidable, QuadTreeable, 
 
 						if (animationData.frames != null) {
 							for (int i = 0, len = animationData.frames.size(); i < len; i++) {
-								GameData.FrameData frameData = animationData.frames.get(i);
+								GameData.AnimationFrameData frameData = animationData.frames.get(i);
 								animation.addFrame(frameData.x, frameData.y, frameData.endTime);
 							}
 						}
@@ -120,6 +129,21 @@ public abstract class Actor extends Sprite implements Collidable, QuadTreeable, 
 						setDefaultAnimation(data.defaultAnimation);
 						playAnimation(data.defaultAnimation);
 					}
+				}
+			}
+		}
+	}
+
+	@Override
+	public void notify(Event event) {
+		super.notify(event);
+
+		for (int i = 0, len = subscribers.size(); i < len; i++) {
+			Subscriber subscriber = subscribers.get(i);
+
+			if (subscriber instanceof ActorListener) {
+				if (event.getAction() == "actor:die") {
+					((ActorListener) subscribers.get(i)).onActorDeath(event);
 				}
 			}
 		}
@@ -139,7 +163,10 @@ public abstract class Actor extends Sprite implements Collidable, QuadTreeable, 
 	public void onCollision(Event event) {
 	}
 
-    @Override
-    public void reset() {
-    }
+	// Getters and setters
+	// ----------------------------------------
+
+	public boolean isDead() {
+		return dead;
+	}
 }

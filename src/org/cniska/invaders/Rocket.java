@@ -2,7 +2,6 @@ package org.cniska.invaders;
 
 import org.cniska.phaser.core.GameView;
 import org.cniska.phaser.core.Updateable;
-import org.cniska.phaser.event.Event;
 import org.cniska.phaser.node.Actor;
 import org.cniska.phaser.scene.World;
 
@@ -17,7 +16,6 @@ public class Rocket extends SpaceActor {
 	public Rocket(GameView view, World world) {
 		super(view, world);
 		id = 3;
-		name = "rocket";
 	}
 
 	@Override
@@ -31,8 +29,8 @@ public class Rocket extends SpaceActor {
 	public void update(Updateable parent) {
 		super.update(parent);
 
-		if (x < -50) {
-			remove();
+		if (x < (view.getX() - 30)) {
+			die();
 		}
 	}
 
@@ -40,15 +38,4 @@ public class Rocket extends SpaceActor {
 	public boolean collides(Actor other) {
 		return other instanceof Alien && intersects(other);
 	}
-
-    @Override
-    public void reset() {
-        super.reset();
-        x = 0;
-        y = 0;
-        ax = 0;
-        ay = 0;
-        vx = 0;
-        vy = 0;
-    }
 }

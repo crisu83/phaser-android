@@ -16,7 +16,6 @@ public class Torpedo extends SpaceActor {
 	public Torpedo(GameView view, World world) {
 		super(view, world);
 		id = 4;
-		name = "torpedo";
 	}
 
 	@Override
@@ -30,8 +29,8 @@ public class Torpedo extends SpaceActor {
 	public void update(Updateable parent) {
 		super.update(parent);
 
-		if (x > view.getHeight() + 50) {
-			remove();
+		if (x > (view.getHeight() + 30)) {
+			die();
 		}
 	}
 

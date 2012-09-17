@@ -2,15 +2,10 @@ package org.cniska.invaders;
 
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Window;
 import android.view.WindowManager;
-import org.cniska.phaser.core.GameView;
 
 public class Main extends Activity {
 
@@ -23,8 +18,8 @@ public class Main extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-		// Force landscape orientation.
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+		// Force orientation.
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
 		// Set the game to run in full-screen mode.
         requestWindowFeature(Window.FEATURE_NO_TITLE);

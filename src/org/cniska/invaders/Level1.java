@@ -1,10 +1,9 @@
 package org.cniska.invaders;
 
 import org.cniska.phaser.core.GameView;
-import org.cniska.phaser.scene.Level;
 import org.cniska.phaser.scene.World;
 
-public class Level1 extends Level {
+public class Level1 extends SpaceLevel {
 
 	/**
 	 * Creates a new level.

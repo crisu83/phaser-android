@@ -157,6 +157,8 @@ public abstract class Entity extends Node {
 
 	@Override
 	public void notify(Event event) {
+		super.notify(event);
+
 		for (int i = 0, len = subscribers.size(); i < len; i++) {
 			Subscriber subscriber = subscribers.get(i);
 

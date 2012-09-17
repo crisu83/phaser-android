@@ -3,13 +3,15 @@ package org.cniska.phaser.render;
 import android.graphics.Canvas;
 import org.cniska.phaser.core.GameView;
 import org.cniska.phaser.core.Updateable;
+import org.cniska.phaser.event.Event;
+import org.cniska.phaser.node.EntityListener;
 import org.cniska.phaser.node.Node;
 import org.cniska.phaser.node.Sprite;
 import org.cniska.phaser.util.SortedList;
 
 import java.util.Comparator;
 
-public class SpriteRenderer extends Node implements Renderer {
+public class SpriteRenderer extends Node implements Renderer, EntityListener {
 
 	// Member variables
 	// ----------------------------------------
@@ -36,6 +38,7 @@ public class SpriteRenderer extends Node implements Renderer {
 	 * @param sprite The sprite to add.
 	 */
 	public void addSprite(Sprite sprite) {
+		sprite.attach(this);
 		sprites.add(sprite);
 	}
 
@@ -45,6 +48,7 @@ public class SpriteRenderer extends Node implements Renderer {
 	 * @param sprite The sprite to remove.
 	 */
 	public void removeSprite(Sprite sprite) {
+		sprite.detach(this);
 		sprites.remove(sprite);
 	}
 
@@ -70,6 +74,11 @@ public class SpriteRenderer extends Node implements Renderer {
 		super.update(parent);
 
 		sprites.update(this);
+	}
+
+	@Override
+	public void onEntityRemove(Event event) {
+		removeSprite((Sprite) event.getSource());
 	}
 
 	// Inner classes

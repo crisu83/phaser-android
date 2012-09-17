@@ -6,7 +6,8 @@ import org.cniska.phaser.core.GameView;
 import org.cniska.phaser.core.Updateable;
 import org.cniska.phaser.debug.Debuggable;
 import org.cniska.phaser.node.Actor;
-import org.cniska.phaser.util.List;
+
+import java.util.ArrayList;
 
 public abstract class World extends Scene {
 
@@ -14,7 +15,7 @@ public abstract class World extends Scene {
 	// ----------------------------------------
 
 	protected int currentLevel = -1;
-	protected List<Level> levels;
+	protected ArrayList<Level> levels;
 	protected Physics physics;
 
 	// Methods
@@ -27,7 +28,7 @@ public abstract class World extends Scene {
 	 */
 	public World(GameView view) {
 		super(view);
-		levels = new List<Level>();
+		levels = new ArrayList<Level>();
 		physics = new Physics(view);
 		addNode(physics);
 	}
@@ -45,7 +46,7 @@ public abstract class World extends Scene {
 	 * @param index The level index.
 	 */
 	protected void loadLevel(int index) {
-		if (index > (levels.size()) - 1) {
+		if (index > (levels.size() - 1)) {
 			Level level = createLevel(index + 1);
 
 			if (level != null) {
@@ -88,15 +89,13 @@ public abstract class World extends Scene {
 	// ----------------------------------------
 
 	@Override
-	public void setup() {
+	public void init() {
 		nextLevel(); // load the first level
 	}
 
 	@Override
 	public void update(Updateable parent) {
 		super.update(parent);
-
-		levels.update(this);
 
 		Level currentLevel = currentLevel();
 		if (currentLevel != null) {

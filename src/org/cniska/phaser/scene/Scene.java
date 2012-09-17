@@ -31,7 +31,7 @@ abstract public class Scene extends Node {
 	/**
 	 * Setups the world.
 	 */
-	public abstract void setup();
+	//public abstract void setup();
 
 	// Getters and setters
 	// ----------------------------------------

@@ -22,9 +22,7 @@ public abstract class SpaceActor extends Actor {
 
 	@Override
 	public void onCollision(Event event) {
-		visible = false;
-		remove();
-
+		die();
 		explosion.position(x, y);
 		explosion.explode();
 	}

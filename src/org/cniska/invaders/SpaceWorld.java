@@ -2,7 +2,6 @@ package org.cniska.invaders;
 
 import org.cniska.phaser.core.GameView;
 import org.cniska.phaser.debug.Logger;
-import org.cniska.phaser.input.OrientationHandler;
 import org.cniska.phaser.node.Actor;
 import org.cniska.phaser.scene.Level;
 import org.cniska.phaser.scene.World;
@@ -31,8 +30,8 @@ public class SpaceWorld extends World {
 	}
 
 	@Override
-	public void setup() {
-		super.setup();
+	public void init() {
+		super.init();
 
         // todo: figure out how to use large backgrounds in android without affecting the performance too much.
         /*
@@ -46,7 +45,7 @@ public class SpaceWorld extends World {
 		bg3.loadBitmap(R.drawable.stars_03);
 		*/
 
-		player = (Player) createActor(ACTOR_PLAYER);
+		Player player = (Player) createActor(ACTOR_PLAYER);
 		view.getTouchHandler().attach(player); // player wants to listen for touch events
 	}
 
@@ -68,7 +67,11 @@ public class SpaceWorld extends World {
 		Actor actor = null;
 		switch (id) {
 			case ACTOR_PLAYER:
-				actor = player != null ? player : new Player(view, this);
+				if (player == null) {
+					player = new Player(view, this);
+				}
+
+				actor = player;
 				break;
 			case ACTOR_ALIEN:
 				actor = new Alien(view, this);

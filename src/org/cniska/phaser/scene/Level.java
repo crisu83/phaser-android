@@ -2,12 +2,21 @@ package org.cniska.phaser.scene;
 
 import org.cniska.phaser.core.GameData;
 import org.cniska.phaser.core.GameView;
+import org.cniska.phaser.event.Event;
+import org.cniska.phaser.event.Subscriber;
 import org.cniska.phaser.node.Actor;
 import org.cniska.phaser.node.Node;
 
 public class Level extends Node {
 
+	// Member variables
+	// ----------------------------------------
+
 	protected World world;
+	protected boolean ended;
+
+	// Methods
+	// ----------------------------------------
 
 	/**
 	 * Creates a new level.
@@ -16,6 +25,17 @@ public class Level extends Node {
 		super(view);
 		this.world = world;
 	}
+
+	/**
+	 * Ends the level.
+	 */
+	public void end() {
+		notify(new Event("level:end", this));
+		ended = true;
+	}
+
+	// Overridden methods
+	// ----------------------------------------
 
 	@Override
 	public void init() {
@@ -27,12 +47,32 @@ public class Level extends Node {
 			if (data != null) {
 				if (data.actors != null) {
 					for (int i = 0, len = data.actors.size(); i < len; i++) {
-						GameData.ActorLevelData actorLevelData = data.actors.get(i);
-						Actor actor = world.createActor(actorLevelData.id);
-						actor.position(actorLevelData.x, actorLevelData.y);
+						GameData.LevelActorData levelActorData = data.actors.get(i);
+						Actor actor = world.createActor(levelActorData.id);
+						actor.position(levelActorData.x, levelActorData.y);
 					}
 				}
 			}
 		}
+	}
+
+	@Override
+	public void notify(Event event) {
+		for (int i = 0, len = subscribers.size(); i < len; i++) {
+			Subscriber subscriber = subscribers.get(i);
+
+			if (subscriber instanceof LevelListener) {
+				if (event.getAction() == "level:end") {
+					((LevelListener) subscribers.get(i)).onLevelEnd(event);
+				}
+			}
+		}
+	}
+
+	// Getters and setters
+	// ----------------------------------------
+
+	public boolean isEnded() {
+		return ended;
 	}
 }

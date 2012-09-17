@@ -19,7 +19,6 @@ public class Background extends Actor {
 	) {
 		super(view, world);
 		id = 6;
-		name = "background";
 	}
 
 	/*

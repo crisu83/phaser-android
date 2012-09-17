@@ -1,18 +1,21 @@
 package org.cniska.invaders;
 
-import android.hardware.SensorManager;
 import android.view.MotionEvent;
 import org.cniska.phaser.core.GameView;
 import org.cniska.phaser.core.Updateable;
 import org.cniska.phaser.input.TouchListener;
+import org.cniska.phaser.node.Actor;
 import org.cniska.phaser.scene.World;
 
-public class Player extends SpaceActor implements TouchListener {
+public class Player extends Ship implements TouchListener {
+
+	public static final int DEFAULT_VELOCITY = 2;
 
 	protected MotionEvent touch;
-	protected int missileCooldown;
-	protected long reloadTime;
-	protected boolean missiles = true;
+	protected int tx = -1;
+	protected boolean shoot = false;
+	protected boolean left = false;
+	protected boolean right = false;
 
 	/**
 	 * Creates a new game object.
@@ -23,20 +26,19 @@ public class Player extends SpaceActor implements TouchListener {
 	public Player(GameView view, World world) {
 		super(view, world);
 		id = 1;
-		name = "player";
-		missileCooldown = 1000 * 1000000; // ms -> ns
+		missileCooldown = 800 * 1000000; // ms -> ns
 	}
 
 	protected void fire() {
+		super.fire();
 		Rocket rocket = (Rocket) world.createActor(3);
-		rocket.position(x + (width / 2) - 2, y - 25);
-		reloadTime = System.nanoTime();
-		missiles = false;
+		rocket.position(x + (width / 2) - 2, y - 30);
 	}
 
 	@Override
 	public void init() {
 		super.init();
+		position((view.getWidth() / 2) - 10, view.getHeight() - 100);
 		loadBitmap(R.drawable.ship_01);
 		explosion.loadBitmap(R.drawable.explosion_02);
 	}
@@ -44,10 +46,22 @@ public class Player extends SpaceActor implements TouchListener {
 	@Override
 	public void input() {
 		if (touch != null) {
-            x = (int) touch.getX() - 10;
+			if (tx == -1) {
+				tx = (int) touch.getX() - 10;
 
-            if (missiles) {
-                fire();
+				if (tx < x) {
+					vx = -DEFAULT_VELOCITY;
+					playAnimation("tiltLeft");
+					left = true;
+				} else {
+					vx = DEFAULT_VELOCITY;
+					playAnimation("tiltRight");
+					right = true;
+				}
+			}
+
+            if (reloaded) {
+				shoot = true;
             }
 
             touch = null;
@@ -56,11 +70,26 @@ public class Player extends SpaceActor implements TouchListener {
 
 	@Override
 	public void update(Updateable parent) {
-		super.update(parent);
+		if (!removed) {
+			super.update(parent);
 
-		if ((System.nanoTime() - reloadTime) > missileCooldown) {
-			missiles = true;
+			if (left && x < tx || right && x > tx) {
+				tx = -1;
+				vx = 0;
+				playAnimation("idle");
+				left = right = false;
+			}
+
+			if (reloaded && shoot) {
+				fire();
+				shoot = false;
+			}
 		}
+	}
+
+	@Override
+	public boolean collides(Actor other) {
+		return other instanceof Torpedo && intersects(other);
 	}
 
 	@Override

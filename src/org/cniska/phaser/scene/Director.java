@@ -50,7 +50,7 @@ public class Director extends Node implements Renderer {
 	public void set(String name) {
 		if (scenes.containsKey(name)) {
 			currentScene = scenes.get(name);
-			currentScene.setup();
+			//currentScene.setup();
 		}
 	}
 
