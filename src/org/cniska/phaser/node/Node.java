@@ -145,6 +145,10 @@ public class Node extends Publisher implements Debuggable, EntityListener {
 		this.name = name;
 	}
 
+	public List<Node> getChildren() {
+		return children;
+	}
+
 	public GameView getView() {
 		return view;
 	}

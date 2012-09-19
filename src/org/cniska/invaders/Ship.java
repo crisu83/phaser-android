@@ -6,9 +6,9 @@ import org.cniska.phaser.scene.World;
 
 public abstract class Ship extends SpaceActor {
 
-	protected int missileCooldown;
-	protected long reloadTime;
-	protected boolean reloaded = true;
+	protected long missileCooldown;
+	protected long missileTime = 0;
+	protected boolean reloading = true;
 
 	/**
 	 * Creates a new actor.
@@ -21,8 +21,13 @@ public abstract class Ship extends SpaceActor {
 	}
 
 	protected void fire() {
-		reloadTime = System.nanoTime();
-		reloaded = false;
+		missileTime = System.nanoTime();
+	}
+
+	@Override
+	public void init() {
+		super.init();
+		missileTime = System.nanoTime();
 	}
 
 	@Override
@@ -30,8 +35,9 @@ public abstract class Ship extends SpaceActor {
 		if (!removed) {
 			super.update(parent);
 
-			if ((System.nanoTime() - reloadTime) > missileCooldown) {
-				reloaded = true;
+			long timeDelta = System.nanoTime() - missileTime;
+			if (timeDelta > missileCooldown) {
+				reloading = false;
 			}
 		}
 	}

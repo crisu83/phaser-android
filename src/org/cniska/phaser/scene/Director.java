@@ -33,12 +33,12 @@ public class Director extends Node implements Renderer {
 	}
 
 	/**
-	 * Adds a scene to the manager.
+	 * Adds a scene to the director.
 	 *
 	 * @param id The scene identifier.
 	 * @param scene The scene to add.
 	 */
-	public void addScene(Integer id, Scene scene) {
+	public void addScene(int id, Scene scene) {
 		scenes.put(id, scene);
 	}
 
@@ -47,10 +47,19 @@ public class Director extends Node implements Renderer {
 	 *
 	 * @param id The scene identifier.
 	 */
-	public void setScene(Integer id) {
+	public void setScene(int id) {
 		if (scenes.containsKey(id)) {
 			currentScene = scenes.get(id);
 		}
+	}
+
+	/**
+	 * Removes a scene from the director.
+	 *
+	 * @param id The scene identifier.
+	 */
+	public void removeScene(int id) {
+		scenes.remove(id);
 	}
 
 	// Overridden methods

@@ -36,6 +36,6 @@ public class Torpedo extends SpaceActor {
 
 	@Override
 	public boolean collides(Actor other) {
-		return other instanceof Player && intersects(other);
+		return (other instanceof Player || other instanceof Rocket) && intersects(other);
 	}
 }

@@ -5,7 +5,9 @@ import org.cniska.phaser.collision.Physics;
 import org.cniska.phaser.core.GameView;
 import org.cniska.phaser.core.Updateable;
 import org.cniska.phaser.debug.Debuggable;
+import org.cniska.phaser.debug.MonitorPanel;
 import org.cniska.phaser.node.Actor;
+import org.cniska.phaser.node.Sprite;
 
 import java.util.ArrayList;
 
@@ -17,6 +19,7 @@ public abstract class World extends Scene {
 	protected int currentLevel = -1;
 	protected ArrayList<Level> levels;
 	protected Physics physics;
+	protected MonitorPanel monitor;
 
 	// Methods
 	// ----------------------------------------
@@ -31,6 +34,8 @@ public abstract class World extends Scene {
 		levels = new ArrayList<Level>();
 		physics = new Physics(view);
 		addNode(physics);
+		monitor = new MonitorPanel(view, this);
+		addSprite(monitor);
 	}
 
 	/**
@@ -40,8 +45,18 @@ public abstract class World extends Scene {
 	 */
 	public void addActor(Actor actor) {
 		addNode(actor);
-		getPhysics().addActor(actor);
-		getRenderer().addSprite(actor);
+		physics.addActor(actor);
+		renderer.addSprite(actor);
+	}
+
+	/**
+	 * Adds a sprite to the world.
+	 *
+	 * @param sprite The sprite.
+	 */
+	public void addSprite(Sprite sprite) {
+		addNode(sprite);
+		renderer.addSprite(sprite);
 	}
 
 	/**
@@ -59,12 +74,10 @@ public abstract class World extends Scene {
 	protected void loadLevel(int index) {
 		if (index > (levels.size() - 1)) {
 			Level level = createLevel(index + 1);
-
 			if (level != null) {
 				levels.add(level);
 			}
 		}
-
 		currentLevel = index;
 	}
 

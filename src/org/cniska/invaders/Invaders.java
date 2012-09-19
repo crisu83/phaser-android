@@ -35,13 +35,23 @@ public class Invaders extends GameView {
 	public void setup() {
 		data = new SpaceData(this);
 		data.load();
-
-		director.addScene(SCENE_GAME, new SpaceWorld(this));
-		director.setScene(SCENE_GAME);
+		newGame();
     }
 
 	@Override
 	public GameData getData() {
 		return data;
+	}
+
+	@Override
+	public void newGame() {
+		director.addScene(SCENE_GAME, new SpaceWorld(this));
+		director.setScene(SCENE_GAME);
+	}
+
+	@Override
+	public void endGame() {
+		director.removeScene(SCENE_GAME);
+		newGame();
 	}
 }

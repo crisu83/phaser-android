@@ -2,11 +2,13 @@ package org.cniska.invaders;
 
 import org.cniska.phaser.core.GameView;
 import org.cniska.phaser.debug.Logger;
+import org.cniska.phaser.event.Event;
 import org.cniska.phaser.node.Actor;
+import org.cniska.phaser.node.ActorListener;
 import org.cniska.phaser.scene.Level;
 import org.cniska.phaser.scene.World;
 
-public class SpaceWorld extends World {
+public class SpaceWorld extends World implements ActorListener {
 
 	protected Player player;
 
@@ -78,5 +80,12 @@ public class SpaceWorld extends World {
 				Logger.error(getClass().getCanonicalName(), "Invalid actor id.");
 		}
 		return actor;
+	}
+
+	@Override
+	public void onActorDeath(Event event) {
+		if (event.getSource() instanceof Player) {
+			view.endGame();
+		}
 	}
 }

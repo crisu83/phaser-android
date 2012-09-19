@@ -7,15 +7,17 @@ import org.cniska.phaser.input.TouchListener;
 import org.cniska.phaser.node.Actor;
 import org.cniska.phaser.scene.World;
 
+import java.util.Random;
+
 public class Player extends Ship implements TouchListener {
 
 	public static final int DEFAULT_VELOCITY = 5;
 
 	protected MotionEvent touch;
 	protected int tx = -1;
-	protected boolean shoot = false;
 	protected boolean left = false;
 	protected boolean right = false;
+	protected Random random;
 
 	/**
 	 * Creates a new game object.
@@ -26,12 +28,12 @@ public class Player extends Ship implements TouchListener {
 	public Player(GameView view, World world) {
 		super(view, world);
 		id = Invaders.ACTOR_PLAYER;
-		missileCooldown = 800 * 1000000; // ms -> ns
+		missileCooldown = 1000 * 1000000; // ms -> ns
 	}
 
 	protected void fire() {
 		super.fire();
-		Rocket rocket = (Rocket) world.createActor(3);
+		Rocket rocket = (Rocket) world.createActor(Invaders.ACTOR_ROCKET);
 		rocket.position(x + (width / 2) - 2, y - 30);
 		world.addActor(rocket);
 	}
@@ -62,10 +64,6 @@ public class Player extends Ship implements TouchListener {
 				}
 			}
 
-            if (reloaded) {
-				shoot = true;
-            }
-
             touch = null;
 		}
 	}
@@ -82,9 +80,9 @@ public class Player extends Ship implements TouchListener {
 				left = right = false;
 			}
 
-			if (reloaded && shoot) {
+			if (!reloading) {
 				fire();
-				shoot = false;
+				reloading = true;
 			}
 		}
 	}

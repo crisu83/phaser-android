@@ -9,12 +9,10 @@ import java.util.Random;
 
 public class Alien extends Ship {
 
-	protected static final int MIN_MISSILE_COOLDOWN_MS = 500;
-	protected static final int MAX_MISSILE_COOLDOWN_MS = 800;
-
 	protected static final int MAX_OFFSET = 100;
 
 	protected int sx;
+	protected int index;
 	protected boolean torpedos = false;
 	protected Random random;
 
@@ -27,7 +25,20 @@ public class Alien extends Ship {
 	public Alien(GameView view, World world) {
 		super(view, world);
 		id = Invaders.ACTOR_ALIEN;
-		random = new Random();
+		random = new Random(System.nanoTime());
+		missileCooldown = randomizeCooldown();
+	}
+
+	protected void fire() {
+		super.fire();
+		Torpedo torpedo = (Torpedo) world.createActor(Invaders.ACTOR_TORPEDO);
+		torpedo.position(x + (width / 2) - 2, y + 30);
+		world.addActor(torpedo);
+	}
+
+	protected long randomizeCooldown() {
+		long rand = random.nextInt(5000 - 2501) + 2500;
+		return rand * 1000000;
 	}
 
 	@Override
@@ -35,14 +46,6 @@ public class Alien extends Ship {
 		super.init();
 		loadBitmap(R.drawable.ship_02);
 		explosion.loadBitmap(R.drawable.explosion_04);
-	}
-
-	@Override
-	protected void fire() {
-		super.fire();
-		Torpedo torpedo = (Torpedo) world.createActor(4);
-		torpedo.position(x + (width / 2) - 2, y + 30);
-		world.addActor(torpedo);
 	}
 
 	@Override
@@ -59,8 +62,10 @@ public class Alien extends Ship {
 			}
 
 			/*
-			if (torpedos && reloaded) {
+			if (torpedos && !reloading) {
 				fire();
+				missileCooldown = randomizeCooldown();
+				reloading = true;
 			}
 			*/
 		}
@@ -69,6 +74,14 @@ public class Alien extends Ship {
 	@Override
 	public boolean collides(Actor other) {
 		return other instanceof Rocket && intersects(other);
+	}
+
+	public int getIndex() {
+		return index;
+	}
+
+	public void setIndex(int index) {
+		this.index = index;
 	}
 
 	public void setSx(int sx) {

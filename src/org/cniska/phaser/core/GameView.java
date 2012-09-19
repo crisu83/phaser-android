@@ -7,7 +7,6 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import org.cniska.phaser.debug.Logger;
-import org.cniska.phaser.debug.MonitorPanel;
 import org.cniska.phaser.input.TouchHandler;
 import org.cniska.phaser.node.Node;
 import org.cniska.phaser.render.ImageLoader;
@@ -22,7 +21,6 @@ public abstract class GameView extends SurfaceView implements SurfaceHolder.Call
 
     private GameLoop gameLoop;
     private Thread animator;
-	private MonitorPanel monitor;
 	private boolean debug = false;
 
 	protected Node gameRoot;
@@ -64,9 +62,6 @@ public abstract class GameView extends SurfaceView implements SurfaceHolder.Call
 
 		touchHandler = new TouchHandler(this);
 		gameRoot.addNode(touchHandler);
-
-		monitor = new MonitorPanel(this);
-		gameRoot.addNode(monitor);
 	}
 
     /**
@@ -119,7 +114,6 @@ public abstract class GameView extends SurfaceView implements SurfaceHolder.Call
 
 		if (debug) {
 			gameRoot.debug(null, canvas);
-			monitor.draw(canvas);
 		}
 	}
 
@@ -137,6 +131,10 @@ public abstract class GameView extends SurfaceView implements SurfaceHolder.Call
 	 * @return The data.
 	 */
 	public abstract GameData getData();
+
+	public abstract void newGame();
+
+	public abstract void endGame();
 
 	// Interface methods
 	// ----------------------------------------
