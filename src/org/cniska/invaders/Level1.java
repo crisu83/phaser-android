@@ -10,6 +10,6 @@ public class Level1 extends SpaceLevel {
 	 */
 	public Level1(GameView view, World world) {
 		super(view, world);
-		id = 1;
+		id = Invaders.LEVEL_1;
 	}
 }

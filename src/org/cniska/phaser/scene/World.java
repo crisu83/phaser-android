@@ -34,6 +34,17 @@ public abstract class World extends Scene {
 	}
 
 	/**
+	 * Adds an actor to the world.
+	 *
+	 * @param actor The actor.
+	 */
+	public void addActor(Actor actor) {
+		addNode(actor);
+		getPhysics().addActor(actor);
+		getRenderer().addSprite(actor);
+	}
+
+	/**
 	 * Loads the next level.
 	 */
 	public void nextLevel() {

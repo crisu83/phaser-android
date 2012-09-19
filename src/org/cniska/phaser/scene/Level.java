@@ -50,6 +50,7 @@ public class Level extends Node {
 						GameData.LevelActorData levelActorData = data.actors.get(i);
 						Actor actor = world.createActor(levelActorData.id);
 						actor.position(levelActorData.x, levelActorData.y);
+						world.addActor(actor);
 					}
 				}
 			}

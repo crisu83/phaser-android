@@ -3,9 +3,21 @@ package org.cniska.invaders;
 import android.content.Context;
 import org.cniska.phaser.core.GameData;
 import org.cniska.phaser.core.GameView;
-import org.cniska.phaser.scene.World;
 
 public class Invaders extends GameView {
+
+	// Actor identifiers
+	public static final int ACTOR_PLAYER = 1;
+	public static final int ACTOR_ALIEN = 2;
+	public static final int ACTOR_ROCKET = 3;
+	public static final int ACTOR_TORPEDO = 4;
+	public static final int ACTOR_EXPLOSION = 5;
+
+	// Level identifiers
+	public static final int LEVEL_1 = 1;
+
+	// Scene identifiers
+	public static final int SCENE_GAME = 2;
 
 	protected SpaceData data;
 
@@ -24,9 +36,8 @@ public class Invaders extends GameView {
 		data = new SpaceData(this);
 		data.load();
 
-		World world = new SpaceWorld(this);
-		director.add("space-world", world);
-		director.set("space-world");
+		director.addScene(SCENE_GAME, new SpaceWorld(this));
+		director.setScene(SCENE_GAME);
     }
 
 	@Override

@@ -8,16 +8,6 @@ import org.cniska.phaser.scene.World;
 
 public class SpaceWorld extends World {
 
-	// Actor identifiers
-	public static final int ACTOR_PLAYER = 1;
-	public static final int ACTOR_ALIEN = 2;
-	public static final int ACTOR_ROCKET = 3;
-	public static final int ACTOR_TORPEDO = 4;
-	public static final int ACTOR_EXPLOSION = 5;
-
-	// Level identifiers
-	public static final int LEVEL_1 = 1;
-
 	protected Player player;
 
 	/**
@@ -45,15 +35,15 @@ public class SpaceWorld extends World {
 		bg3.loadBitmap(R.drawable.stars_03);
 		*/
 
-		Player player = (Player) createActor(ACTOR_PLAYER);
-		view.getTouchHandler().attach(player); // player wants to listen for touch events
+		Player player = (Player) createActor(Invaders.ACTOR_PLAYER);
+		addActor(player);
 	}
 
 	@Override
 	public Level createLevel(int id) {
 		Level level = null;
 		switch (id) {
-			case LEVEL_1:
+			case Invaders.LEVEL_1:
 				level = new Level1(view, this);
 				break;
 			default:
@@ -66,23 +56,22 @@ public class SpaceWorld extends World {
 	public Actor createActor(int id) {
 		Actor actor = null;
 		switch (id) {
-			case ACTOR_PLAYER:
+			case Invaders.ACTOR_PLAYER:
 				if (player == null) {
 					player = new Player(view, this);
 				}
-
 				actor = player;
 				break;
-			case ACTOR_ALIEN:
+			case Invaders.ACTOR_ALIEN:
 				actor = new Alien(view, this);
 				break;
-			case ACTOR_ROCKET:
+			case Invaders.ACTOR_ROCKET:
 				actor = new Rocket(view, this);
 				break;
-			case ACTOR_TORPEDO:
+			case Invaders.ACTOR_TORPEDO:
 				actor = new Torpedo(view, this);
 				break;
-			case ACTOR_EXPLOSION:
+			case Invaders.ACTOR_EXPLOSION:
 				actor = new Explosion(view, this);
 				break;
 			default:

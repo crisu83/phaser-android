@@ -15,7 +15,7 @@ public class Director extends Node implements Renderer {
 	// Member variables
 	// ----------------------------------------
 
-	protected Hashtable<String, Scene> scenes;
+	protected Hashtable<Integer, Scene> scenes;
 	protected Scene currentScene;
 
 	// Methods
@@ -29,28 +29,27 @@ public class Director extends Node implements Renderer {
 	public Director(GameView view) {
 		super(view);
 		name = "director";
-		scenes = new Hashtable<String, Scene>();
+		scenes = new Hashtable<Integer, Scene>();
 	}
 
 	/**
 	 * Adds a scene to the manager.
 	 *
-	 * @param name The scene name.
+	 * @param id The scene identifier.
 	 * @param scene The scene to add.
 	 */
-	public void add(String name, Scene scene) {
-		scenes.put(name, scene);
+	public void addScene(Integer id, Scene scene) {
+		scenes.put(id, scene);
 	}
 
 	/**
 	 * Sets the current scene.
 	 *
-	 * @param name The scene name.
+	 * @param id The scene identifier.
 	 */
-	public void set(String name) {
-		if (scenes.containsKey(name)) {
-			currentScene = scenes.get(name);
-			//currentScene.setup();
+	public void setScene(Integer id) {
+		if (scenes.containsKey(id)) {
+			currentScene = scenes.get(id);
 		}
 	}
 

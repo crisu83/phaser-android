@@ -18,6 +18,7 @@ public abstract class SpaceActor extends Actor {
 	protected SpaceActor(GameView view, World world) {
 		super(view, world);
 		explosion = new Explosion(view, world);
+		world.addActor(explosion);
 	}
 
 	@Override

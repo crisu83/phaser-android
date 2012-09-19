@@ -47,6 +47,7 @@ public class SpaceLevel extends Level implements EntityListener {
 						alien.setVx(1);
 						alien.setSx(x); // set starting x-coordinate
 						alien.attach(this); // listen to alien events
+						world.addActor(alien);
 
 						if (i == (alienRowCount - 1)) {
 							alien.setTorpedos(true);

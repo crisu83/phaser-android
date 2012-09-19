@@ -25,14 +25,6 @@ abstract public class Scene extends Node {
 		addNode(renderer);
 	}
 
-	// Abstract methods
-	// ----------------------------------------
-
-	/**
-	 * Setups the world.
-	 */
-	//public abstract void setup();
-
 	// Getters and setters
 	// ----------------------------------------
 

@@ -35,9 +35,6 @@ public abstract class Actor extends Sprite implements Collidable, QuadTreeable {
 	protected Actor(GameView view, World world) {
 		super(view);
 		this.world = world;
-		world.addNode(this);
-		world.getPhysics().addActor(this);
-		world.getRenderer().addSprite(this);
 	}
 
 	/**

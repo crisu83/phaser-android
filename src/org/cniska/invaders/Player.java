@@ -9,7 +9,7 @@ import org.cniska.phaser.scene.World;
 
 public class Player extends Ship implements TouchListener {
 
-	public static final int DEFAULT_VELOCITY = 2;
+	public static final int DEFAULT_VELOCITY = 5;
 
 	protected MotionEvent touch;
 	protected int tx = -1;
@@ -25,7 +25,7 @@ public class Player extends Ship implements TouchListener {
 	 */
 	public Player(GameView view, World world) {
 		super(view, world);
-		id = 1;
+		id = Invaders.ACTOR_PLAYER;
 		missileCooldown = 800 * 1000000; // ms -> ns
 	}
 
@@ -33,6 +33,7 @@ public class Player extends Ship implements TouchListener {
 		super.fire();
 		Rocket rocket = (Rocket) world.createActor(3);
 		rocket.position(x + (width / 2) - 2, y - 30);
+		world.addActor(rocket);
 	}
 
 	@Override
@@ -41,6 +42,7 @@ public class Player extends Ship implements TouchListener {
 		position((view.getWidth() / 2) - 10, view.getHeight() - 100);
 		loadBitmap(R.drawable.ship_01);
 		explosion.loadBitmap(R.drawable.explosion_02);
+		view.getTouchHandler().attach(this);
 	}
 
 	@Override

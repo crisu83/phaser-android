@@ -15,7 +15,7 @@ public class Rocket extends SpaceActor {
 	 */
 	public Rocket(GameView view, World world) {
 		super(view, world);
-		id = 3;
+		id = Invaders.ACTOR_ROCKET;
 	}
 
 	@Override

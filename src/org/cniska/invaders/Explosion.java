@@ -18,7 +18,7 @@ public class Explosion extends Actor {
 	 */
 	public Explosion(GameView view, World world) {
 		super(view, world);
-		id = 5;
+		id = Invaders.ACTOR_EXPLOSION;
 		lifetime = 400 * 1000000; // ms -> ns
 		visible = false;
 	}

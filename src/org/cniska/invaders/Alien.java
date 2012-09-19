@@ -26,13 +26,8 @@ public class Alien extends Ship {
 	 */
 	public Alien(GameView view, World world) {
 		super(view, world);
-		id = 2;
+		id = Invaders.ACTOR_ALIEN;
 		random = new Random();
-		randomizeMissileCooldown();
-	}
-
-	protected void randomizeMissileCooldown() {
-		missileCooldown = (random.nextInt(MAX_MISSILE_COOLDOWN_MS - MIN_MISSILE_COOLDOWN_MS + 1) + MIN_MISSILE_COOLDOWN_MS) * 1000000; // ms -> ns
 	}
 
 	@Override
@@ -47,7 +42,7 @@ public class Alien extends Ship {
 		super.fire();
 		Torpedo torpedo = (Torpedo) world.createActor(4);
 		torpedo.position(x + (width / 2) - 2, y + 30);
-		randomizeMissileCooldown();
+		world.addActor(torpedo);
 	}
 
 	@Override

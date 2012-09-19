@@ -15,7 +15,7 @@ public class Torpedo extends SpaceActor {
 	 */
 	public Torpedo(GameView view, World world) {
 		super(view, world);
-		id = 4;
+		id = Invaders.ACTOR_TORPEDO;
 	}
 
 	@Override
