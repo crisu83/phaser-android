@@ -1,7 +1,11 @@
 package org.cniska.invaders;
 
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import org.cniska.phaser.core.GameView;
 import org.cniska.phaser.core.Updateable;
+import org.cniska.phaser.debug.Debuggable;
 import org.cniska.phaser.node.Actor;
 import org.cniska.phaser.scene.World;
 
@@ -61,13 +65,23 @@ public class Alien extends Ship {
 				y += 30;
 			}
 
-			/*
 			if (torpedos && !reloading) {
 				fire();
 				missileCooldown = randomizeCooldown();
 				reloading = true;
 			}
-			*/
+		}
+	}
+
+	@Override
+	public void debug(Debuggable parent, Canvas canvas) {
+		super.debug(parent, canvas);
+
+		if (torpedos) {
+			Paint paint = new Paint();
+			paint.setColor(Color.GREEN);
+			paint.setStyle(Paint.Style.STROKE);
+			canvas.drawRect(x, y, x2(), y2(), paint);
 		}
 	}
 

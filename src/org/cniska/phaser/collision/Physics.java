@@ -73,7 +73,10 @@ public class Physics extends Node implements EntityListener {
 	@Override
 	public void debug(Debuggable parent, Canvas canvas) {
 		super.debug(parent, canvas);
-		quadTree.debug(this, canvas);
+
+		if (quadTree != null) {
+			quadTree.debug(this, canvas);
+		}
 	}
 
 	@Override
