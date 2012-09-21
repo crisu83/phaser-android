@@ -187,6 +187,10 @@ public abstract class GameView extends SurfaceView implements SurfaceHolder.Call
 		return touchHandler;
 	}
 
+	public boolean isDebug() {
+		return debug;
+	}
+
 	public void setDebug(boolean debug) {
 		this.debug = debug;
 	}

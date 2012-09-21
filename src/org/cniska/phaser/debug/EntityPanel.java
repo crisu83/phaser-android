@@ -26,15 +26,12 @@ public class EntityPanel extends Panel {
 	public void init() {
 		super.init();
 
-		text.setColor(Color.WHITE);
-		text.setTextSize(12);
-
 		Paint background = new Paint();
 		background.setColor(Color.DKGRAY);
 		background.setAlpha(50);
 		setBackground(background);
 
-		position(view.getWidth() - 120, 10);
+		position(10, 90);
 		size(100, 30);
 		setzIndex(100);
 		setPadding(10);

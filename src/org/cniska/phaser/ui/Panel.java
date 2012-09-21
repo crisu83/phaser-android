@@ -1,5 +1,6 @@
 package org.cniska.phaser.ui;
 
+import android.graphics.Color;
 import org.cniska.phaser.core.GameView;
 import org.cniska.phaser.scene.Scene;
 
@@ -16,5 +17,13 @@ public class Panel extends Element {
 	 */
 	public Panel(GameView view, Scene scene) {
 		super(view, scene);
+	}
+
+	@Override
+	public void init() {
+		super.init();
+
+		text.setColor(Color.WHITE);
+		text.setTextSize(12);
 	}
 }

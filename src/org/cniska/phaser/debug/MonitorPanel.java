@@ -22,9 +22,6 @@ public class MonitorPanel extends Panel {
 	public void init() {
 		super.init();
 
-		text.setTextSize(12);
-		text.setAlpha(50);
-
 		Paint background = new Paint();
 		background.setColor(Color.DKGRAY);
 		background.setAlpha(50);

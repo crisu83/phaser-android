@@ -13,7 +13,7 @@ import java.util.Random;
 
 public class Alien extends Ship {
 
-	protected static final int MAX_OFFSET = 100;
+	protected static final int MAX_OFFSET = 200;
 
 	protected int sx;
 	protected int index;
@@ -41,7 +41,7 @@ public class Alien extends Ship {
 	}
 
 	protected long randomizeCooldown() {
-		long rand = random.nextInt(5000 - 2501) + 2500;
+		long rand = random.nextInt(10000 - 2001) + 2000;
 		return rand * 1000000;
 	}
 
@@ -79,7 +79,7 @@ public class Alien extends Ship {
 
 		if (torpedos) {
 			Paint paint = new Paint();
-			paint.setColor(Color.GREEN);
+			paint.setColor(Color.YELLOW);
 			paint.setStyle(Paint.Style.STROKE);
 			canvas.drawRect(x, y, x2(), y2(), paint);
 		}

@@ -5,6 +5,7 @@ import org.cniska.phaser.collision.Physics;
 import org.cniska.phaser.core.GameView;
 import org.cniska.phaser.core.Updateable;
 import org.cniska.phaser.debug.Debuggable;
+import org.cniska.phaser.debug.EntityPanel;
 import org.cniska.phaser.debug.MonitorPanel;
 import org.cniska.phaser.node.Actor;
 import org.cniska.phaser.node.Sprite;
@@ -19,7 +20,8 @@ public abstract class World extends Scene {
 	protected int currentLevel = -1;
 	protected ArrayList<Level> levels;
 	protected Physics physics;
-	protected MonitorPanel monitor;
+	protected MonitorPanel monitorPanel;
+	protected EntityPanel entityPanel;
 
 	// Methods
 	// ----------------------------------------
@@ -34,8 +36,8 @@ public abstract class World extends Scene {
 		levels = new ArrayList<Level>();
 		physics = new Physics(view);
 		addNode(physics);
-		monitor = new MonitorPanel(view, this);
-		addSprite(monitor);
+		entityPanel = new EntityPanel(view, this);
+		addSprite(entityPanel);
 	}
 
 	/**
@@ -114,6 +116,13 @@ public abstract class World extends Scene {
 
 	@Override
 	public void init() {
+		super.init();
+
+		if (view.isDebug()) {
+			monitorPanel = new MonitorPanel(view, this);
+			addSprite(monitorPanel);
+		}
+
 		nextLevel(); // load the first level
 	}
 

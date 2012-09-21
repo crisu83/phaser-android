@@ -14,10 +14,6 @@ public class Player extends Ship implements TouchListener {
 	public static final int DEFAULT_VELOCITY = 5;
 
 	protected MotionEvent touch;
-	protected int tx = -1;
-	protected boolean left = false;
-	protected boolean right = false;
-	protected Random random;
 
 	/**
 	 * Creates a new game object.
@@ -50,21 +46,28 @@ public class Player extends Ship implements TouchListener {
 	@Override
 	public void input() {
 		if (touch != null) {
-			if (tx == -1) {
-				tx = (int) touch.getX() - 10;
+			switch (touch.getAction()) {
+				case MotionEvent.ACTION_DOWN:
+					int tx = (int) touch.getX();
+					if (tx < x) { // touch on the left side of the player
+						vx = -DEFAULT_VELOCITY;
+						playAnimation("tiltLeft");
+					} else if (tx > x) { // touch on the right side of the player
+						vx = DEFAULT_VELOCITY;
+						playAnimation("tiltRight");
+					}
+					break;
 
-				if (tx < x) {
-					vx = -DEFAULT_VELOCITY;
-					playAnimation("tiltLeft");
-					left = true;
-				} else {
-					vx = DEFAULT_VELOCITY;
-					playAnimation("tiltRight");
-					right = true;
-				}
+				case MotionEvent.ACTION_UP:
+					playAnimation("idle");
+					vx = 0;
+					break;
+
+				default:
+					// We do not care about other events for now...
 			}
 
-            touch = null;
+            touch = null; // event handled
 		}
 	}
 
@@ -73,11 +76,11 @@ public class Player extends Ship implements TouchListener {
 		if (!removed) {
 			super.update(parent);
 
-			if (left && x < tx || right && x > tx) {
-				tx = -1;
-				vx = 0;
-				playAnimation("idle");
-				left = right = false;
+			// Prevent the player from leaving the screen.
+			if (x < 0) {
+				x = 1;
+			} else if (x > (view.getWidth() - width)) {
+				x = view.getWidth() - width - 1;
 			}
 
 			if (!reloading) {

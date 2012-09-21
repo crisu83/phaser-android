@@ -12,7 +12,7 @@ import org.cniska.phaser.scene.World;
 public class SpaceWorld extends World implements ActorListener {
 
 	protected Player player;
-	protected EntityPanel entityPanel;
+	protected ScorePanel scorePanel;
 
 	/**
 	 * Creates a new world.
@@ -21,8 +21,6 @@ public class SpaceWorld extends World implements ActorListener {
 	 */
 	public SpaceWorld(GameView view) {
 		super(view);
-		entityPanel = new EntityPanel(view, this);
-		addSprite(entityPanel);
 	}
 
 	@Override
@@ -40,6 +38,9 @@ public class SpaceWorld extends World implements ActorListener {
 		Background bg3 = new Background(view, this);
 		bg3.loadBitmap(R.drawable.stars_03);
 		*/
+
+		scorePanel = new ScorePanel(view, this);
+		addSprite(scorePanel);
 
 		Player player = (Player) createActor(Invaders.ACTOR_PLAYER);
 		addActor(player);
@@ -83,7 +84,13 @@ public class SpaceWorld extends World implements ActorListener {
 			default:
 				Logger.error(getClass().getCanonicalName(), "Invalid actor id.");
 		}
-		actor.attach(entityPanel);
+
+		if (view.isDebug()) {
+			actor.attach(entityPanel);
+		}
+
+		actor.attach(scorePanel);
+
 		return actor;
 	}
 

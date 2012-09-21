@@ -26,12 +26,14 @@ public class SpaceLevel extends Level implements EntityListener {
 	}
 
 	protected boolean alienBlocked(Alien alien) {
-		for (int i = 0; i < deadAliens.length; i++) {
-			if (i == (alien.getIndex() + alienColCount) && deadAliens[i]) {
-				return false;
+		int i = alien.getIndex() + alienColCount;
+		while (i < deadAliens.length) {
+			if (!deadAliens[i]) {
+				return true;
 			}
+			i += alienColCount;
 		}
-		return true;
+		return false;
 	}
 
 	@Override
@@ -71,11 +73,6 @@ public class SpaceLevel extends Level implements EntityListener {
 						alien.attach(this); // listen to alien events
 						world.addActor(alien);
 						aliens.add(alien);
-
-						if (i == (alienRowCount - 1)) {
-							alien.setTorpedos(true);
-						}
-
 						alienCount++;
 						x += offset;
 					}
