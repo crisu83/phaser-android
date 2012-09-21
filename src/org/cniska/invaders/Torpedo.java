@@ -29,7 +29,7 @@ public class Torpedo extends SpaceActor {
 	public void update(Updateable parent) {
 		super.update(parent);
 
-		if (x > (view.getHeight() + 30)) {
+		if (y > (view.getHeight() + 30)) {
 			die();
 		}
 	}

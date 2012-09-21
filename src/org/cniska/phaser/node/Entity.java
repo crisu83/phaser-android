@@ -134,6 +134,13 @@ public abstract class Entity extends Node {
 	// Overridden methods
 	// ----------------------------------------
 
+
+	@Override
+	public void init() {
+		super.init();
+		notify(new Event("entity:init", this));
+	}
+
 	@Override
 	public void update(Updateable parent) {
 		if (!removed) {
@@ -163,6 +170,9 @@ public abstract class Entity extends Node {
 			Subscriber subscriber = subscribers.get(i);
 
 			if (subscriber instanceof EntityListener) {
+				if (event.getAction() == "entity:init") {
+					((EntityListener) subscribers.get(i)).onEntityInit(event);
+				}
 				if (event.getAction() == "entity:remove") {
 					((EntityListener) subscribers.get(i)).onEntityRemove(event);
 				}

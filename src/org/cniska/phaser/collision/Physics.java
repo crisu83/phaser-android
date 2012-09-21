@@ -16,23 +16,47 @@ import java.util.ArrayList;
 
 public class Physics extends Node implements EntityListener {
 
+	// Member variables
+	// ----------------------------------------
+
 	protected List<Actor> actors;
 	protected QuadTree quadTree;
 
+	// Methods
+	// ----------------------------------------
+
+	/**
+	 * Creates a new physics engine.
+	 *
+	 * @param view The game view.
+	 */
 	public Physics(GameView view) {
 		super(view);
 		actors = new List<Actor>();
 	}
 
-	public void addActor(Actor entity) {
-		entity.attach(this);
-		actors.add(entity);
+	/**
+	 * Adds an actor to the engine.
+	 *
+	 * @param actor The actor to add.
+	 */
+	public void addActor(Actor actor) {
+		actor.attach(this);
+		actors.add(actor);
 	}
 
-	public void removeActor(Actor entity) {
-		entity.detach(this);
-		actors.remove(entity);
+	/**
+	 * Removes an actor from the engine.
+	 *
+	 * @param actor The actor to remove.
+	 */
+	public void removeActor(Actor actor) {
+		actor.detach(this);
+		actors.remove(actor);
 	}
+
+	// Overridden methods
+	// ----------------------------------------
 
 	@Override
 	public void init() {
@@ -45,9 +69,11 @@ public class Physics extends Node implements EntityListener {
 		super.update(parent);
 
 		int i, len;
+		ArrayList<QuadTreeable> others;
 
 		actors.update(this);
 
+		// Empty the tree and insert the items, updating the tree is out of the question.
 		quadTree.flush();
 		for (i = 0, len = actors.size(); i < len; i++) {
 			quadTree.add(actors.get(i));
@@ -57,7 +83,7 @@ public class Physics extends Node implements EntityListener {
 			Actor actor = actors.get(i);
 
 			if (!actor.isRemoved()) {
-				ArrayList<QuadTreeable> others = quadTree.getNeighbours(actor);
+				others = quadTree.getNeighbours(actor);
 
 				for (int j = 0, len2 = others.size(); j < len2; j++) {
 					Actor other = (Actor) others.get(j);

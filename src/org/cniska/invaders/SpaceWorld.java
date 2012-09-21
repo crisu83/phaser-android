@@ -1,6 +1,7 @@
 package org.cniska.invaders;
 
 import org.cniska.phaser.core.GameView;
+import org.cniska.phaser.debug.EntityPanel;
 import org.cniska.phaser.debug.Logger;
 import org.cniska.phaser.event.Event;
 import org.cniska.phaser.node.Actor;
@@ -11,6 +12,7 @@ import org.cniska.phaser.scene.World;
 public class SpaceWorld extends World implements ActorListener {
 
 	protected Player player;
+	protected EntityPanel entityPanel;
 
 	/**
 	 * Creates a new world.
@@ -19,6 +21,8 @@ public class SpaceWorld extends World implements ActorListener {
 	 */
 	public SpaceWorld(GameView view) {
 		super(view);
+		entityPanel = new EntityPanel(view, this);
+		addSprite(entityPanel);
 	}
 
 	@Override
@@ -79,6 +83,7 @@ public class SpaceWorld extends World implements ActorListener {
 			default:
 				Logger.error(getClass().getCanonicalName(), "Invalid actor id.");
 		}
+		actor.attach(entityPanel);
 		return actor;
 	}
 

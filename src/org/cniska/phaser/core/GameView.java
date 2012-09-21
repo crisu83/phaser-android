@@ -132,8 +132,14 @@ public abstract class GameView extends SurfaceView implements SurfaceHolder.Call
 	 */
 	public abstract GameData getData();
 
+	/**
+	 * Starts a new game.
+	 */
 	public abstract void newGame();
 
+	/**
+	 * Ends the game.
+	 */
 	public abstract void endGame();
 
 	// Interface methods

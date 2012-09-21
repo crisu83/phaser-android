@@ -115,6 +115,10 @@ public class Node extends Publisher implements Debuggable, EntityListener {
 	}
 
 	@Override
+	public void onEntityInit(Event event) {
+	}
+
+	@Override
 	public void onEntityRemove(Event event) {
 		removeNode((Node) event.getSource());
 	}

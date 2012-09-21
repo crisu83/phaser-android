@@ -15,8 +15,12 @@ public class MonitorPanel extends Panel {
 
 	public MonitorPanel(GameView view, Scene scene) {
 		super(view, scene);
-
 		formatter = new DecimalFormat("0.##");
+	}
+
+	@Override
+	public void init() {
+		super.init();
 
 		text.setTextSize(12);
 		text.setAlpha(50);

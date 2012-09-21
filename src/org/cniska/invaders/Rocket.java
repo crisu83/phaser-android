@@ -29,7 +29,7 @@ public class Rocket extends SpaceActor {
 	public void update(Updateable parent) {
 		super.update(parent);
 
-		if (x < (view.getX() - 30)) {
+		if (y < -30) {
 			die();
 		}
 	}
