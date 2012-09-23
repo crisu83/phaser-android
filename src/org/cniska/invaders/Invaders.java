@@ -1,6 +1,9 @@
 package org.cniska.invaders;
 
 import android.content.Context;
+import org.cniska.invaders.menu.SpaceMenu;
+import org.cniska.invaders.world.SpaceData;
+import org.cniska.invaders.world.SpaceWorld;
 import org.cniska.phaser.core.GameData;
 import org.cniska.phaser.core.GameView;
 
@@ -17,6 +20,7 @@ public class Invaders extends GameView {
 	public static final int LEVEL_1 = 1;
 
 	// Scene identifiers
+	public static final int SCENE_MENU = 1;
 	public static final int SCENE_GAME = 2;
 
 	protected SpaceData data;
@@ -35,7 +39,8 @@ public class Invaders extends GameView {
 	public void setup() {
 		data = new SpaceData(this);
 		data.load();
-		newGame();
+
+		openMenu();
     }
 
 	@Override
@@ -43,8 +48,14 @@ public class Invaders extends GameView {
 		return data;
 	}
 
+	public void openMenu() {
+		director.addScene(SCENE_MENU, new SpaceMenu(this));
+		director.setScene(SCENE_MENU);
+	}
+
 	@Override
 	public void newGame() {
+		director.removeScene(SCENE_MENU);
 		director.addScene(SCENE_GAME, new SpaceWorld(this));
 		director.setScene(SCENE_GAME);
 	}
@@ -52,6 +63,6 @@ public class Invaders extends GameView {
 	@Override
 	public void endGame() {
 		director.removeScene(SCENE_GAME);
-		newGame();
+		openMenu();
 	}
 }

@@ -1,7 +1,5 @@
 package org.cniska.phaser.core;
 
-import org.cniska.phaser.node.Node;
-
 public interface Updateable {
 
 	/**

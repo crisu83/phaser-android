@@ -11,6 +11,8 @@ public class Main extends Activity {
 
     private static final int TARGET_FPS = 60;
 
+	private Invaders view;
+
     /**
      * Called when the activity is first created.
      */
@@ -30,8 +32,8 @@ public class Main extends Activity {
 
 		// Calculate the period and create the game.
 		long period = (long) 1000.0 / TARGET_FPS;
-		Invaders view = new Invaders(period * 1000000L, this);
-		view.setDebug(true);
+		view = new Invaders(period * 1000000L, this);
+		//view.setDebug(true);
         setContentView(view);
     }
 }

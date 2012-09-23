@@ -1,4 +1,4 @@
-package org.cniska.invaders;
+package org.cniska.invaders.world;
 
 import org.cniska.phaser.core.GameView;
 import org.cniska.phaser.core.Updateable;
@@ -37,7 +37,7 @@ public class SpaceLevel extends Level implements EntityListener {
 	}
 
 	@Override
-	public void init() {
+	protected void init() {
 		super.init();
 
 		if (id > 0) {
@@ -70,7 +70,7 @@ public class SpaceLevel extends Level implements EntityListener {
 						alien.setVx(1);
 						alien.setSx(x); // set starting x-coordinate
 						alien.setIndex(j + (i * alienColCount));
-						alien.attach(this); // listen to alien events
+						alien.subscribe(this); // listen to alien events
 						world.addActor(alien);
 						aliens.add(alien);
 						alienCount++;
@@ -104,7 +104,7 @@ public class SpaceLevel extends Level implements EntityListener {
 		Entity entity = (Entity) event.getSource();
 		if (entity instanceof Alien) {
 			Alien alien = (Alien) entity;
-			entity.detach(this);
+			entity.unsubscribe(this);
 			deadAliens[alien.getIndex()] = true;
 			alienCount--;
 		}

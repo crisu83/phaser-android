@@ -87,7 +87,7 @@ public abstract class GameView extends SurfaceView implements SurfaceHolder.Call
      */
 	protected void stop() {
         if (running) {
-            gameLoop.end();
+            gameLoop.finish();
             animator = null;
             running = false;
             Logger.info(getClass().getCanonicalName(), "Game stopped.");

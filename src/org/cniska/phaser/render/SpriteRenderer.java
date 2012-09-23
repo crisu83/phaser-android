@@ -38,7 +38,7 @@ public class SpriteRenderer extends Node implements Renderer, EntityListener {
 	 * @param sprite The sprite to add.
 	 */
 	public void addSprite(Sprite sprite) {
-		sprite.attach(this);
+		sprite.subscribe(this);
 		sprites.add(sprite);
 	}
 
@@ -48,7 +48,7 @@ public class SpriteRenderer extends Node implements Renderer, EntityListener {
 	 * @param sprite The sprite to remove.
 	 */
 	public void removeSprite(Sprite sprite) {
-		sprite.detach(this);
+		sprite.unsubscribe(this);
 		sprites.remove(sprite);
 	}
 

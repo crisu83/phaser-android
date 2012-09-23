@@ -1,4 +1,4 @@
-package org.cniska.invaders;
+package org.cniska.invaders.world;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -8,9 +8,9 @@ import org.cniska.phaser.event.Event;
 import org.cniska.phaser.node.Actor;
 import org.cniska.phaser.node.ActorListener;
 import org.cniska.phaser.scene.Scene;
-import org.cniska.phaser.ui.Panel;
+import org.cniska.phaser.ui.Element;
 
-public class ScorePanel extends Panel implements ActorListener {
+public class ScorePanel extends Element implements ActorListener {
 
 	protected int score = 0;
 
@@ -35,7 +35,7 @@ public class ScorePanel extends Panel implements ActorListener {
 	}
 
 	@Override
-	public void init() {
+	protected void init() {
 		super.init();
 
 		text.setTextSize(32);
@@ -54,7 +54,11 @@ public class ScorePanel extends Panel implements ActorListener {
 	@Override
 	public void draw(Canvas canvas) {
 		super.draw(canvas);
-		canvas.drawText("SCORE: " + score, x + padding, y + padding + text.getTextSize(), text);
+		canvas.drawText("SCORE: " + score, contentX(), lineY(1), text);
+	}
+
+	@Override
+	public void onActorBirth(Event event) {
 	}
 
 	@Override

@@ -5,10 +5,11 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import org.cniska.phaser.core.GameView;
 import org.cniska.phaser.event.Event;
+import org.cniska.phaser.node.Entity;
 import org.cniska.phaser.scene.Scene;
-import org.cniska.phaser.ui.Panel;
+import org.cniska.phaser.ui.Element;
 
-public class EntityPanel extends Panel {
+public class EntityPanel extends Element {
 
 	protected int entityCount = 0;
 
@@ -23,7 +24,7 @@ public class EntityPanel extends Panel {
 	}
 
 	@Override
-	public void init() {
+	protected void init() {
 		super.init();
 
 		Paint background = new Paint();
@@ -32,7 +33,7 @@ public class EntityPanel extends Panel {
 		setBackground(background);
 
 		position(10, 90);
-		size(100, 30);
+		size(100, 35);
 		setzIndex(100);
 		setPadding(10);
 	}
@@ -40,17 +41,18 @@ public class EntityPanel extends Panel {
 	@Override
 	public void draw(Canvas canvas) {
 		super.draw(canvas);
-		canvas.drawText("Entities: " + entityCount, x + padding, y + 20, text);
+		canvas.drawText("Entities: " + entityCount, contentX(), lineY(1), text);
 	}
 
 	@Override
-	public void onEntityInit(Event event) {
+	public void onEntityCreate(Event event) {
 		entityCount++;
 	}
 
 	@Override
 	public void onEntityRemove(Event event) {
-		//event.getSource().detach(this);
+		Entity entity = (Entity) event.getSource();
+		entity.unsubscribe(this);
 		entityCount--;
 	}
 }

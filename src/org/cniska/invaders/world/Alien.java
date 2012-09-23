@@ -1,8 +1,10 @@
-package org.cniska.invaders;
+package org.cniska.invaders.world;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import org.cniska.invaders.Invaders;
+import org.cniska.invaders.R;
 import org.cniska.phaser.core.GameView;
 import org.cniska.phaser.core.Updateable;
 import org.cniska.phaser.debug.Debuggable;
@@ -46,7 +48,7 @@ public class Alien extends Ship {
 	}
 
 	@Override
-	public void init() {
+	protected void init() {
 		super.init();
 		loadBitmap(R.drawable.ship_02);
 		explosion.loadBitmap(R.drawable.explosion_04);

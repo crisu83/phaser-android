@@ -6,7 +6,7 @@ import org.cniska.phaser.core.Updateable;
 import org.cniska.phaser.debug.Debuggable;
 import org.cniska.phaser.event.Event;
 import org.cniska.phaser.node.Actor;
-import org.cniska.phaser.node.EntityListener;
+import org.cniska.phaser.node.ActorListener;
 import org.cniska.phaser.node.Node;
 import org.cniska.phaser.util.List;
 import org.cniska.phaser.util.QuadTree;
@@ -14,7 +14,7 @@ import org.cniska.phaser.util.QuadTreeable;
 
 import java.util.ArrayList;
 
-public class Physics extends Node implements EntityListener {
+public class Physics extends Node implements ActorListener {
 
 	// Member variables
 	// ----------------------------------------
@@ -41,7 +41,7 @@ public class Physics extends Node implements EntityListener {
 	 * @param actor The actor to add.
 	 */
 	public void addActor(Actor actor) {
-		actor.attach(this);
+		actor.subscribe(this);
 		actors.add(actor);
 	}
 
@@ -51,7 +51,7 @@ public class Physics extends Node implements EntityListener {
 	 * @param actor The actor to remove.
 	 */
 	public void removeActor(Actor actor) {
-		actor.detach(this);
+		actor.unsubscribe(this);
 		actors.remove(actor);
 	}
 
@@ -59,7 +59,7 @@ public class Physics extends Node implements EntityListener {
 	// ----------------------------------------
 
 	@Override
-	public void init() {
+	protected void init() {
 		super.init();
 		quadTree = new QuadTree(0, 0, view.getWidth(), view.getHeight(), 2, 4);
 	}
@@ -105,8 +105,15 @@ public class Physics extends Node implements EntityListener {
 		}
 	}
 
+	// Event handlers
+	// ----------------------------------------
+
 	@Override
-	public void onEntityRemove(Event event) {
+	public void onActorBirth(Event event) {
+	}
+
+	@Override
+	public void onActorDeath(Event event) {
 		removeActor((Actor) event.getSource());
 	}
 }

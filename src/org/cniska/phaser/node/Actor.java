@@ -53,8 +53,7 @@ public abstract class Actor extends Sprite implements Collidable, QuadTreeable {
 	 * @param other The other actor.
 	 */
 	public void collide(Actor other) {
-		Event event = new Event("actor:collide", this);
-		other.onCollision(event);
+		other.onCollision(new Event("actor:collide", this));
 	}
 
 	/**
@@ -62,70 +61,73 @@ public abstract class Actor extends Sprite implements Collidable, QuadTreeable {
 	 */
 	public void die() {
 		notify(new Event("actor:die", this));
-		remove();
+		remove(); // dead actors should be removed
 	}
 
 	// Overridden methods
 	// ----------------------------------------
 
+
 	@Override
-	public void init() {
+	protected void init() {
 		super.init();
+		notify(new Event("actor:birth", this));
+	}
 
-		if (id > 0) {
-			GameData.ActorData data = view.getData().getActor(id);
+	@Override
+	protected void initData() {
+		GameData.ActorData data = view.getData().getActor(id);
 
-			if (data != null) {
-				if (data.width > 0) {
-					width = data.width;
-				}
+		if (data != null) {
+			if (data.width > 0) {
+				width = data.width;
+			}
 
-				if (data.height > 0) {
-					height = data.height;
-				}
+			if (data.height > 0) {
+				height = data.height;
+			}
 
-				if (data.vx != 0) {
-					vx = data.vx;
-				}
+			if (data.vx != 0) {
+				vx = data.vx;
+			}
 
-				if (data.vy != 0) {
-					vy = data.vy;
-				}
+			if (data.vy != 0) {
+				vy = data.vy;
+			}
 
-				if (data.ax != 0) {
-					ax = data.ax;
-				}
+			if (data.ax != 0) {
+				ax = data.ax;
+			}
 
-				if (data.ay != 0) {
-					ay = data.ay;
-				}
+			if (data.ay != 0) {
+				ay = data.ay;
+			}
 
-				if (data.zIndex > 0) {
-					setzIndex(data.zIndex);
-				}
+			if (data.zIndex > 0) {
+				setzIndex(data.zIndex);
+			}
 
-				if (data.animations != null) {
-					for (HashMap.Entry<String, GameData.AnimationData> animationEntry : data.animations.entrySet()) {
-						String animationName = animationEntry.getKey();
-						GameData.AnimationData animationData = animationEntry.getValue();
+			if (data.animations != null) {
+				for (HashMap.Entry<String, GameData.AnimationData> animationEntry : data.animations.entrySet()) {
+					String animationName = animationEntry.getKey();
+					GameData.AnimationData animationData = animationEntry.getValue();
 
-						Animation animation = new Animation();
-						animation.setLoop(animationData.loop);
+					Animation animation = new Animation();
+					animation.setLoop(animationData.loop);
 
-						if (animationData.frames != null) {
-							for (int i = 0, len = animationData.frames.size(); i < len; i++) {
-								GameData.AnimationFrameData frameData = animationData.frames.get(i);
-								animation.addFrame(frameData.x, frameData.y, frameData.endTime);
-							}
+					if (animationData.frames != null) {
+						for (int i = 0, len = animationData.frames.size(); i < len; i++) {
+							GameData.AnimationFrameData frameData = animationData.frames.get(i);
+							animation.addFrame(frameData.x, frameData.y, frameData.endTime);
 						}
-
-						addAnimation(animationName, animation);
 					}
 
-					if (defaultAnimation != "") {
-						setDefaultAnimation(data.defaultAnimation);
-						playAnimation(data.defaultAnimation);
-					}
+					addAnimation(animationName, animation);
+				}
+
+				if (defaultAnimation != "") {
+					setDefaultAnimation(data.defaultAnimation);
+					playAnimation(data.defaultAnimation);
 				}
 			}
 		}
@@ -139,7 +141,9 @@ public abstract class Actor extends Sprite implements Collidable, QuadTreeable {
 			Subscriber subscriber = subscribers.get(i);
 
 			if (subscriber instanceof ActorListener) {
-				if (event.getAction() == "actor:die") {
+				if (event.getAction() == "actor:birth") {
+					((ActorListener) subscribers.get(i)).onActorBirth(event);
+				} else if (event.getAction() == "actor:die") {
 					((ActorListener) subscribers.get(i)).onActorDeath(event);
 				}
 			}
@@ -155,6 +159,9 @@ public abstract class Actor extends Sprite implements Collidable, QuadTreeable {
 			canvas.drawRect(x, y, x2(), y2(), paint);
 		}
 	}
+
+	// Interface methods
+	// ----------------------------------------
 
 	@Override
 	public void onCollision(Event event) {

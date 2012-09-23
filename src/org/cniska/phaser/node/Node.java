@@ -6,6 +6,7 @@ import org.cniska.phaser.core.Updateable;
 import org.cniska.phaser.debug.Debuggable;
 import org.cniska.phaser.event.Event;
 import org.cniska.phaser.event.Publisher;
+import org.cniska.phaser.event.Subscriber;
 import org.cniska.phaser.util.List;
 
 public class Node extends Publisher implements Debuggable, EntityListener {
@@ -35,7 +36,19 @@ public class Node extends Publisher implements Debuggable, EntityListener {
 	 * Initializes the node.
 	 * Override this method to apply initialization logic.
 	 */
-	public void init() {
+	protected void init() {
+		if (id > 0) {
+			initData();
+		}
+		notify(new Event("node:init", this));
+	}
+
+	/**
+	 * Uninitialized the node.
+	 * Override this method to apply uninitialization logic.
+	 */
+	public void uninit() {
+		notify(new Event("node:uninit", this));
 	}
 
 	/**
@@ -44,8 +57,18 @@ public class Node extends Publisher implements Debuggable, EntityListener {
 	 * @param node The node to add.
 	 */
 	public void addNode(Node node) {
-		node.attach(this);
+		node.subscribe(this);
 		children.add(node);
+	}
+
+	/**
+	 * Removes a child node.
+	 *
+	 * @param node The node to remove.
+	 */
+	public void removeNode(Node node) {
+		node.unsubscribe(this);
+		children.remove(node);
 	}
 
 	/**
@@ -84,13 +107,10 @@ public class Node extends Publisher implements Debuggable, EntityListener {
 	}
 
 	/**
-	 * Removes a child node.
-	 *
-	 * @param node The node to remove.
+	 * Initializes the entity data.
+	 * Override this method to add data initialization logic.
 	 */
-	public void removeNode(Node node) {
-		node.detach(this);
-		children.remove(node);
+	protected void initData() {
 	}
 
 	// Overridden methods
@@ -106,28 +126,50 @@ public class Node extends Publisher implements Debuggable, EntityListener {
 			initialized = true;
 		}
 
-		children.update(this);
-
 		// Update child nodes.
+		children.update(this);
 		for (int i = 0, len = children.size(); i < len; i++) {
 			children.get(i).update(this);
 		}
 	}
 
 	@Override
-	public void onEntityInit(Event event) {
+	public void notify(Event event) {
+		super.notify(event);
+
+		for (int i = 0, len = subscribers.size(); i < len; i++) {
+			Subscriber subscriber = subscribers.get(i);
+
+			if (subscriber instanceof NodeListener) {
+				if (event.getAction() == "node:init") {
+					((NodeListener) subscribers.get(i)).onNodeInit(event);
+				} else if (event.getAction() == "node:uninit") {
+					((NodeListener) subscribers.get(i)).onNodeUninit(event);
+				}
+			}
+		}
 	}
 
-	@Override
-	public void onEntityRemove(Event event) {
-		removeNode((Node) event.getSource());
-	}
+	// Interface methods
+	// ----------------------------------------
 
 	@Override
 	public void debug(Debuggable parent, Canvas canvas) {
 		for (int i = 0, len = children.size(); i < len; i++) {
 			children.get(i).debug(this, canvas);
 		}
+	}
+
+	// Event handlers
+	// ----------------------------------------
+
+	@Override
+	public void onEntityCreate(Event event) {
+	}
+
+	@Override
+	public void onEntityRemove(Event event) {
+		removeNode((Node) event.getSource());
 	}
 
 	// Getters and setters

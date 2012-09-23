@@ -25,7 +25,7 @@ public abstract class Publisher implements Updateable {
 	 *
 	 * @param subscriber The subscriber to add.
 	 */
-	public void attach(Subscriber subscriber) {
+	public void subscribe(Subscriber subscriber) {
 		subscribers.add(subscriber);
 	}
 
@@ -34,11 +34,11 @@ public abstract class Publisher implements Updateable {
 	 *
 	 * @param subscriber The subscriber to remove.
 	 */
-	public void detach(Subscriber subscriber) {
+	public void unsubscribe(Subscriber subscriber) {
 		subscribers.remove(subscriber);
 	}
 
-	// Overridden methods
+	// Interface methods
 	// ----------------------------------------
 
 	@Override

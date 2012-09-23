@@ -34,9 +34,13 @@ public abstract class Entity extends Node {
 	public void input() {
 	}
 
+	/**
+	 * Marks the entity as removed.
+	 */
 	public void remove() {
 		notify(new Event("entity:remove", this));
 		removed = true;
+		uninit(); // removed entities should be uninitialized
 	}
 
 	/**
@@ -102,6 +106,18 @@ public abstract class Entity extends Node {
 	}
 
 	/**
+	 * Returns whether the entity contains the given coordinates.
+	 *
+	 * @param x The x-coordinate.
+	 * @param y The y-coordinate.
+	 * @return The result.
+	 */
+	public boolean contains(int x, int y) {
+		Rect r = new Rect(x, y, x2(), y2());
+		return r.contains(x, y);
+	}
+
+	/**
 	 * Returns whether the entity intersects the other entity.
 	 *
 	 * @param other The other entity.
@@ -134,11 +150,10 @@ public abstract class Entity extends Node {
 	// Overridden methods
 	// ----------------------------------------
 
-
 	@Override
-	public void init() {
+	protected void init() {
 		super.init();
-		notify(new Event("entity:init", this));
+		notify(new Event("entity:create", this));
 	}
 
 	@Override
@@ -170,10 +185,9 @@ public abstract class Entity extends Node {
 			Subscriber subscriber = subscribers.get(i);
 
 			if (subscriber instanceof EntityListener) {
-				if (event.getAction() == "entity:init") {
-					((EntityListener) subscribers.get(i)).onEntityInit(event);
-				}
-				if (event.getAction() == "entity:remove") {
+				if (event.getAction() == "entity:create") {
+					((EntityListener) subscribers.get(i)).onEntityCreate(event);
+				} else if (event.getAction() == "entity:remove") {
 					((EntityListener) subscribers.get(i)).onEntityRemove(event);
 				}
 			}

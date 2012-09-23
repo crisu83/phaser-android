@@ -1,13 +1,13 @@
-package org.cniska.invaders;
+package org.cniska.invaders.world;
 
 import android.view.MotionEvent;
+import org.cniska.invaders.Invaders;
+import org.cniska.invaders.R;
 import org.cniska.phaser.core.GameView;
 import org.cniska.phaser.core.Updateable;
 import org.cniska.phaser.input.TouchListener;
 import org.cniska.phaser.node.Actor;
 import org.cniska.phaser.scene.World;
-
-import java.util.Random;
 
 public class Player extends Ship implements TouchListener {
 
@@ -35,12 +35,12 @@ public class Player extends Ship implements TouchListener {
 	}
 
 	@Override
-	public void init() {
+	protected void init() {
 		super.init();
 		position((view.getWidth() / 2) - 10, view.getHeight() - 100);
 		loadBitmap(R.drawable.ship_01);
 		explosion.loadBitmap(R.drawable.explosion_02);
-		view.getTouchHandler().attach(this);
+		view.getTouchHandler().subscribe(this);
 	}
 
 	@Override

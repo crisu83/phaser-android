@@ -1,5 +1,6 @@
-package org.cniska.invaders;
+package org.cniska.invaders.world;
 
+import org.cniska.invaders.Invaders;
 import org.cniska.phaser.core.GameView;
 import org.cniska.phaser.scene.World;
 

@@ -6,11 +6,11 @@ import org.cniska.phaser.event.Subscriber;
 public interface EntityListener extends Subscriber {
 
 	/**
-	 * Called when a entity is added.
+	 * Called when a entity is created.
 	 *
 	 * @param event The event
 	 */
-	public void onEntityInit(Event event);
+	public void onEntityCreate(Event event);
 
 	/**
 	 * Called when a entity is removed.

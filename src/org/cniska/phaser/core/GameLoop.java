@@ -16,6 +16,7 @@ public class GameLoop implements Runnable {
 	// ----------------------------------------
 
     private volatile boolean finished = false;
+	private volatile boolean paused = false;
 
 	private long period;
 	private long startTime;
@@ -35,9 +36,19 @@ public class GameLoop implements Runnable {
 		this.view = view;
     }
 
+	/**
+	 * Finishes the game loop.
+	 */
+	public void finish() {
+		finished = true;
+	}
+
+	// Interface methods
+	// ----------------------------------------
+
     @Override
     public void run() {
-		long lastTime, afterTime, elapsedTime, sleepTime;
+		long lastTime, afterTime, elapsedTime, sleepTime, dt;
 		long overTime = 0L;
 		int delayCount = 0;
 
@@ -53,12 +64,14 @@ public class GameLoop implements Runnable {
 
 			Monitor.beginDraw();
 
-			SurfaceHolder holder = view.getHolder();
-			Canvas canvas = holder.lockCanvas();
+			synchronized (this) {
+				SurfaceHolder holder = view.getHolder();
+				Canvas canvas = holder.lockCanvas();
 
-			if (canvas != null) {
-				view.draw(canvas);
-				holder.unlockCanvasAndPost(canvas);
+				if (canvas != null) {
+					view.draw(canvas);
+					holder.unlockCanvasAndPost(canvas);
+				}
 			}
 
 			Monitor.beginSleep();
@@ -88,12 +101,5 @@ public class GameLoop implements Runnable {
 
 			lastTime = System.nanoTime();
 		}
-    }
-
-	/**
-	 * Ends the game loop.
-	 */
-    public void end() {
-        finished = true;
-    }
+	}
 }

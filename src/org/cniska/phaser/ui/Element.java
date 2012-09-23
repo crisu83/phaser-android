@@ -9,11 +9,20 @@ import org.cniska.phaser.scene.Scene;
 
 public class Element extends Sprite {
 
+	// Member variables
+	// ----------------------------------------
+
+	public static final int DEFAULT_TEXT_SIZE = 12;
+
 	protected Scene scene;
 	protected String body;
 	protected Paint background;
 	protected Paint text;
 	protected int padding = 0;
+	protected float lineHeight = 1.2f;
+
+	// Methods
+	// ----------------------------------------
 
 	/**
 	 * Creates a new element.
@@ -24,12 +33,55 @@ public class Element extends Sprite {
 	protected Element(GameView view, Scene scene) {
 		super(view);
 		this.scene = scene;
-
 		background = new Paint();
-		background.setColor(Color.TRANSPARENT);
-
 		text = new Paint(Paint.ANTI_ALIAS_FLAG);
+	}
+
+	/**
+	 * Centers the element in the view.
+	 */
+	public void center() {
+		position(view.getWidth() / 2 - width / 2, view.getHeight() / 2 - height / 2);
+	}
+
+	/**
+	 * Returns the content coordinate on the x-axis.
+	 *
+	 * @return The coordinate.
+	 */
+	public int contentX() {
+		return x + padding;
+	}
+
+	/**
+	 * Returns the content coordinate on the y-axis.
+	 *
+	 * @return The coordinate.
+	 */
+	public int contentY() {
+		return y + padding;
+	}
+
+	/**
+	 * Returns the coordinate on the y-axis for the given text line.
+	 *
+	 * @param line The line number (beginning from 1).
+	 * @return The coordinate.
+	 */
+	public int lineY(int line) {
+		return contentY() + (int) text.getTextSize() + (int) (text.getTextSize() * lineHeight) * (line - 1);
+	}
+
+	// Overridden methods
+	// ----------------------------------------
+
+
+	@Override
+	protected void init() {
+		super.init();
+
 		text.setColor(Color.WHITE);
+		text.setTextSize(DEFAULT_TEXT_SIZE);
 	}
 
 	@Override
@@ -37,7 +89,7 @@ public class Element extends Sprite {
 		canvas.drawRect(x, y, x2(), y2(), background);
 
 		if (body != null) {
-			canvas.drawText(body, x + padding, y + padding, text);
+			canvas.drawText(body, contentX(), lineY(1), text);
 		}
 	}
 

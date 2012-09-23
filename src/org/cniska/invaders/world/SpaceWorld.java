@@ -1,18 +1,26 @@
-package org.cniska.invaders;
+package org.cniska.invaders.world;
 
+import org.cniska.invaders.Invaders;
 import org.cniska.phaser.core.GameView;
-import org.cniska.phaser.debug.EntityPanel;
+import org.cniska.phaser.core.Updateable;
 import org.cniska.phaser.debug.Logger;
 import org.cniska.phaser.event.Event;
 import org.cniska.phaser.node.Actor;
 import org.cniska.phaser.node.ActorListener;
 import org.cniska.phaser.scene.Level;
 import org.cniska.phaser.scene.World;
+import org.cniska.phaser.ui.Flash;
 
 public class SpaceWorld extends World implements ActorListener {
 
+	public static final int READY_TIME_MS = 1000;
+	public static final int END_TIME_MS = 5000;
+
 	protected Player player;
 	protected ScorePanel scorePanel;
+	protected Flash readyFlash, endFlash;
+	protected long readyTime = 0L;
+	protected long endTime = 0L;
 
 	/**
 	 * Creates a new world.
@@ -24,7 +32,7 @@ public class SpaceWorld extends World implements ActorListener {
 	}
 
 	@Override
-	public void init() {
+	protected void init() {
 		super.init();
 
         // todo: figure out how to use large backgrounds in android without affecting the performance too much.
@@ -44,10 +52,32 @@ public class SpaceWorld extends World implements ActorListener {
 
 		Player player = (Player) createActor(Invaders.ACTOR_PLAYER);
 		addActor(player);
+
+		loadLevel(Invaders.LEVEL_1);
+
+		readyTime = System.nanoTime();
+		readyFlash = new Flash("GET READY!", view, this);
+		addElement(readyFlash);
 	}
 
 	@Override
-	public Level createLevel(int id) {
+	public void update(Updateable parent) {
+		super.update(parent);
+
+		// Remove the "Get ready" text after a while.
+		if (readyTime > 0 && (System.nanoTime() - readyTime) > READY_TIME_MS * 1000000L) { // ms -> ns
+			readyFlash.remove();
+		}
+
+		// Wait a bit before ending the actual game.
+		if (endTime > 0 && (System.nanoTime() - endTime) > END_TIME_MS * 1000000L) { // ms -> ns
+			endFlash.remove();
+			view.endGame();
+		}
+	}
+
+	@Override
+	public Level levelFactory(int id) {
 		Level level = null;
 		switch (id) {
 			case Invaders.LEVEL_1:
@@ -60,7 +90,7 @@ public class SpaceWorld extends World implements ActorListener {
 	}
 
 	@Override
-	public Actor createActor(int id) {
+	public Actor actorFactory(int id) {
 		Actor actor = null;
 		switch (id) {
 			case Invaders.ACTOR_PLAYER:
@@ -84,20 +114,25 @@ public class SpaceWorld extends World implements ActorListener {
 			default:
 				Logger.error(getClass().getCanonicalName(), "Invalid actor id.");
 		}
-
-		if (view.isDebug()) {
-			actor.attach(entityPanel);
-		}
-
-		actor.attach(scorePanel);
-
 		return actor;
+	}
+
+	@Override
+	protected void afterCreateActor(Actor actor) {
+		super.afterCreateActor(actor);
+		actor.subscribe(scorePanel);
+	}
+
+	@Override
+	public void onActorBirth(Event event) {
 	}
 
 	@Override
 	public void onActorDeath(Event event) {
 		if (event.getSource() instanceof Player) {
-			view.endGame();
+			endTime = System.nanoTime();
+			endFlash = new Flash("GAME OVER!", view, this);
+			addElement(endFlash);
 		}
 	}
 }

@@ -1,4 +1,4 @@
-package org.cniska.invaders;
+package org.cniska.invaders.world;
 
 import org.cniska.phaser.core.GameView;
 import org.cniska.phaser.core.Updateable;
@@ -25,7 +25,7 @@ public abstract class Ship extends SpaceActor {
 	}
 
 	@Override
-	public void init() {
+	protected void init() {
 		super.init();
 		missileTime = System.nanoTime();
 	}

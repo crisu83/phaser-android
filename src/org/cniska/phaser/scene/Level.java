@@ -38,20 +38,24 @@ public class Level extends Node {
 	// ----------------------------------------
 
 	@Override
-	public void init() {
+	protected void init() {
 		super.init();
+		notify(new Event("level:start", this));
+	}
 
-		if (id > 0) {
-			GameData.LevelData data = view.getData().getLevel(id);
+	@Override
+	protected void initData() {
+		super.initData();
 
-			if (data != null) {
-				if (data.actors != null) {
-					for (int i = 0, len = data.actors.size(); i < len; i++) {
-						GameData.LevelActorData levelActorData = data.actors.get(i);
-						Actor actor = world.createActor(levelActorData.id);
-						actor.position(levelActorData.x, levelActorData.y);
-						world.addActor(actor);
-					}
+		GameData.LevelData data = view.getData().getLevel(id);
+
+		if (data != null) {
+			if (data.actors != null) {
+				for (int i = 0, len = data.actors.size(); i < len; i++) {
+					GameData.LevelActorData levelActorData = data.actors.get(i);
+					Actor actor = world.createActor(levelActorData.id);
+					actor.position(levelActorData.x, levelActorData.y);
+					world.addActor(actor);
 				}
 			}
 		}
@@ -63,7 +67,9 @@ public class Level extends Node {
 			Subscriber subscriber = subscribers.get(i);
 
 			if (subscriber instanceof LevelListener) {
-				if (event.getAction() == "level:end") {
+				if (event.getAction() == "level:start") {
+					((LevelListener) subscribers.get(i)).onLevelStart(event);
+				} else if (event.getAction() == "level:end") {
 					((LevelListener) subscribers.get(i)).onLevelEnd(event);
 				}
 			}
